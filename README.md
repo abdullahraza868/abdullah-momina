@@ -40,7 +40,7 @@ Requires Node 20+.
    venue: { name: 'Venue name', address: 'Street, district', mapUrl: 'https://maps.app.goo.gl/…' },
    ```
    Until then the card shows "Venue to be announced" and no map button.
-2. **RSVP endpoint.** See the next section. Until it's set, the form is visible but disabled, and a note asks guests to reply on WhatsApp or by phone instead.
+2. ~~RSVP endpoint~~ **Done (18 Nov 2026).** Set in `.env.production`; tested live (save, duplicate ignored, invalid rejected).
 3. **RSVP deadline.** `rsvpBy` is set to `2026-12-05` as a recommendation. Confirm it or change it (`null` hides the line).
 4. **Nasheed (optional).** See "Audio" below.
 5. **Copy check.** The invitation wording ("With the blessings of Allah ﷻ, together with our families…") lives in `src/components/Sections.tsx`. The closing line ("Please keep us in your duas") is in the same file. The bride's line reads "daughter of Muhammad Ashraf" exactly as in the brief. If the family would prefer "daughter of the late Muhammad Ashraf", change it in the same file.
