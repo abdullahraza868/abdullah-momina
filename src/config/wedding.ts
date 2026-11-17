@@ -81,7 +81,7 @@ export const wedding = {
   rsvpBy: '2026-12-05' as string | null,
 
   /** Optional audio. Missing file is handled gracefully; never autoplays. */
-  audioSrc: '/audio/nasheed.mp3',
+  audioSrc: `${import.meta.env.BASE_URL}audio/nasheed.mp3`,
 
   defaultGreeting: 'Dear Family & Friends',
 } as const
