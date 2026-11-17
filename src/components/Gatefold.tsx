@@ -3,7 +3,8 @@ import { gsap } from 'gsap'
 import { wedding } from '../config/wedding'
 import { formatEventDate } from '../lib/dates'
 import { prefersReducedMotion } from '../lib/motion'
-import { ArchScene } from './art/ArchScene'
+import { Birds, Couple } from './art/Couple'
+import sceneUrl from '../assets/madinah-dusk.webp'
 import { CardFace, CardInside } from './art/CardFace'
 import { Tassel } from './art/Tassel'
 
@@ -36,7 +37,9 @@ export function Gatefold({ greeting, onOpened }: Props) {
   const drag = useRef({ active: false, startY: 0, dy: 0, moved: false, pointerId: -1 })
   const phaseRef = useRef<Phase>('closed')
 
-  const nikkah = formatEventDate(wedding.events[0].date)
+  const [nikkahEv, receptionEv] = wedding.events
+  const nikkah = formatEventDate(nikkahEv.date)
+  const reception = formatEventDate(receptionEv.date)
 
   // One GSAP context for the component; reverted (all tweens killed) on unmount.
   useLayoutEffect(() => {
@@ -100,11 +103,13 @@ export function Gatefold({ greeting, onOpened }: Props) {
           .timeline({ onComplete: finish })
           .to(q('.pull-layer, .gate-hint'), { autoAlpha: 0, duration: 0.25 })
           .to(q('.door'), { autoAlpha: 0, duration: 0.45 }, 0.1)
-          .fromTo(lines, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.5, stagger: 0.05 }, 0.3)
+          .fromTo(lines, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.5, stagger: 0.04 }, 0.3)
+          .fromTo(q('.couple-layer, .scene-fx'), { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.5 }, 0.3)
         return
       }
 
-      const tl = gsap.timeline({ defaults: { ease: 'power2.out' }, onComplete: finish })
+      // Hand control back (scroll, focus) as soon as the doors are gone; the text keeps animating in.
+      const tl = gsap.timeline({ defaults: { ease: 'power2.out' } })
       tl.to(tasselRef.current, { y: '+=40', duration: 0.28, ease: 'power2.in' })
         .to(q('.pull-layer, .gate-hint'), { autoAlpha: 0, duration: 0.35 }, 0.12)
         .to([cordRef.current, cordHiRef.current], { attr: { d: 'M0 10 Q200 60 400 10' }, duration: 0.3 }, 0)
@@ -114,14 +119,20 @@ export function Gatefold({ greeting, onOpened }: Props) {
         .to(q('.door__shade'), { opacity: 0.45, duration: 1.0, ease: 'power1.in' }, 0.5)
         .to(q('.door'), { autoAlpha: 0, duration: 0.35, ease: 'power1.in' }, 1.5)
         .to(q('.seam-light'), { autoAlpha: 0, duration: 0.6 }, 0.9)
-        .fromTo(q('.scene-art'), { scale: 1.09, filter: 'brightness(1.12)' }, { scale: 1, filter: 'brightness(1)', duration: 2.2, ease: 'power2.out' }, 0.45)
+        // Camera settles back from the light as the doors part.
+        .fromTo(q('.scene-art'), { scale: 1.16, filter: 'brightness(1.18)' }, { scale: 1, filter: 'brightness(1)', duration: 3.2, ease: 'power2.out' }, 0.45)
+        .fromTo(q('.scene-fx'), { autoAlpha: 0 }, { autoAlpha: 1, duration: 2.0, ease: 'power1.out' }, 1.0)
+        // The couple step into the frame.
+        .fromTo(q('.couple-layer'), { autoAlpha: 0, y: 26, scale: 1.04 }, { autoAlpha: 1, y: 0, scale: 1, duration: 2.0, ease: 'power3.out' }, 1.25)
         .fromTo(
           lines,
           { autoAlpha: 0, y: 16, filter: 'blur(6px)' },
-          { autoAlpha: 1, y: 0, filter: 'blur(0px)', duration: 1.0, stagger: 0.16, ease: 'power3.out', clearProps: 'filter' },
-          1.15,
+          { autoAlpha: 1, y: 0, filter: 'blur(0px)', duration: 1.0, stagger: 0.14, ease: 'power3.out', clearProps: 'filter' },
+          1.5,
         )
-        .fromTo(q('.scroll-cue'), { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: 0.6 }, '-=0.3')
+        .fromTo(q('.scene-events__rule'), { scaleY: 0 }, { scaleY: 1, duration: 0.9, ease: 'power2.inOut' }, '-=0.9')
+        .fromTo(q('.scroll-cue'), { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: 0.6 }, '-=0.2')
+      tl.call(finish, [], 1.95)
     })
   }, [onOpened])
 
@@ -180,8 +191,17 @@ export function Gatefold({ greeting, onOpened }: Props) {
       {/* Revealed scene (always in the DOM; hidden from AT until open). */}
       <div className="scene" aria-hidden={!isOpen}>
         <div className="scene-art">
-          <ArchScene />
+          <img className="scene-img" src={sceneUrl} alt="" decoding="async" />
         </div>
+        <div className="scene-fx" aria-hidden="true">
+          <div className="rays" />
+          <Birds />
+          <div className="motes" />
+        </div>
+        <div className="couple-layer">
+          <Couple />
+        </div>
+        <div className="scene-veil" aria-hidden="true" />
         <div className="scene-text">
           <p className="reveal-line scene-bismillah" lang="ar" dir="rtl">
             بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ
@@ -192,10 +212,28 @@ export function Gatefold({ greeting, onOpened }: Props) {
             <span className="reveal-line scene-amp">&amp;</span>
             <span className="reveal-line">{wedding.bride.shortName}</span>
           </h1>
-          <p className="reveal-line scene-caps scene-date">
-            {nikkah.weekday} · {nikkah.day} {nikkah.month} {nikkah.year}
-          </p>
-          <p className="reveal-line scene-city">Madinah</p>
+          <p className="reveal-line scene-invite">invite you to celebrate their union</p>
+          <div className="scene-events">
+            <div className="scene-event reveal-line">
+              <p className="scene-event__name">{nikkahEv.title}</p>
+              <p className="scene-event__day">{nikkah.weekday}</p>
+              <p className="scene-event__date">
+                {nikkah.day} {nikkah.month} {nikkah.year}
+              </p>
+              <p className="scene-event__time">{nikkahEv.timeLabel}</p>
+              <p className="scene-event__place">{nikkahEv.venue?.name ?? 'Venue to be announced'}</p>
+            </div>
+            <span className="scene-events__rule" aria-hidden="true" />
+            <div className="scene-event reveal-line">
+              <p className="scene-event__name">{receptionEv.title}</p>
+              <p className="scene-event__day">{reception.weekday}</p>
+              <p className="scene-event__date">
+                {reception.day} {reception.month} {reception.year}
+              </p>
+              <p className="scene-event__time">{receptionEv.timeLabel}</p>
+              <p className="scene-event__place">{receptionEv.venue?.name ?? 'Madinah'}</p>
+            </div>
+          </div>
         </div>
         <a className="scroll-cue" href="#invitation" tabIndex={isOpen ? 0 : -1}>
           <span>Scroll</span>

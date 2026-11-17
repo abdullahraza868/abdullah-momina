@@ -176,41 +176,219 @@ a {
   will-change: transform;
 }
 
+.scene-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 50%;
+}
+.gatefold.is-open .scene-img {
+  animation: drift 28s ease-in-out infinite alternate;
+}
+@keyframes drift {
+  from {
+    transform: scale(1) translateY(0);
+  }
+  to {
+    transform: scale(1.045) translateY(-0.6%);
+  }
+}
+
+/* Ambient effects: light rays from the low sun, birds, drifting motes. */
+.scene-fx {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.rays {
+  position: absolute;
+  inset: -25%;
+  background: repeating-conic-gradient(
+    from 190deg at 40.6% 51%,
+    rgba(255, 246, 220, 0) 0deg,
+    rgba(255, 244, 214, 0.32) 4deg,
+    rgba(255, 246, 220, 0) 9deg,
+    rgba(255, 246, 220, 0) 15deg
+  );
+  -webkit-mask-image: radial-gradient(circle at 40.6% 51%, #000 0%, rgba(0, 0, 0, 0.55) 22%, transparent 48%);
+  mask-image: radial-gradient(circle at 40.6% 51%, #000 0%, rgba(0, 0, 0, 0.55) 22%, transparent 48%);
+  mix-blend-mode: screen;
+  transform-origin: 40.6% 51%;
+  animation: rays 18s ease-in-out infinite alternate;
+}
+@keyframes rays {
+  from {
+    transform: rotate(-3deg);
+    opacity: 0.7;
+  }
+  to {
+    transform: rotate(3deg);
+    opacity: 1;
+  }
+}
+.birds {
+  position: absolute;
+  inset: 0;
+}
+.bird {
+  position: absolute;
+  left: -8%;
+  width: 4.2cqw;
+  color: rgba(92, 72, 52, 0.55);
+  animation: fly linear infinite;
+}
+.bird svg {
+  display: block;
+  width: 100%;
+  animation: flap 0.42s ease-in-out infinite alternate;
+  transform-origin: 50% 60%;
+}
+.bird--0 {
+  top: 33%;
+  animation-duration: 22s;
+  animation-delay: -4s;
+}
+.bird--1 {
+  top: 35%;
+  width: 3.4cqw;
+  animation-duration: 24s;
+  animation-delay: -5.5s;
+}
+.bird--2 {
+  top: 31%;
+  width: 3cqw;
+  animation-duration: 26s;
+  animation-delay: -14s;
+}
+.bird--3 {
+  top: 38%;
+  width: 3.6cqw;
+  animation-duration: 21s;
+  animation-delay: -16s;
+}
+.bird--1 svg {
+  animation-delay: -0.2s;
+}
+.bird--3 svg {
+  animation-delay: -0.1s;
+}
+@keyframes fly {
+  0% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(60cqw, -3cqh);
+  }
+  100% {
+    transform: translate(120cqw, -1cqh);
+  }
+}
+@keyframes flap {
+  from {
+    transform: scaleY(1);
+  }
+  to {
+    transform: scaleY(0.35);
+  }
+}
+.motes {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle, rgba(255, 238, 190, 0.9) 0 1px, transparent 1.6px),
+    radial-gradient(circle, rgba(255, 244, 214, 0.7) 0 0.8px, transparent 1.4px);
+  background-size:
+    140px 180px,
+    90px 130px;
+  background-position:
+    0 0,
+    40px 60px;
+  opacity: 0.55;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 30%, #000 60%, transparent 95%);
+  mask-image: linear-gradient(to bottom, transparent 30%, #000 60%, transparent 95%);
+  animation: motes 30s linear infinite;
+}
+@keyframes motes {
+  to {
+    background-position:
+      0 -180px,
+      40px -70px;
+  }
+}
+
+.couple-layer {
+  position: absolute;
+  inset: 0;
+  transform-origin: 50% 92%;
+  pointer-events: none;
+}
+.couple-art {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.cp-dupatta-tail {
+  transform-box: view-box;
+  transform-origin: 244px 600px;
+  animation: sway 6s ease-in-out infinite alternate;
+}
+@keyframes sway {
+  from {
+    transform: rotate(-1.2deg) skewX(-1deg);
+  }
+  to {
+    transform: rotate(1.6deg) skewX(1.2deg);
+  }
+}
+
+/* Soft wash at the top so the text always reads over the sky. */
+.scene-veil {
+  position: absolute;
+  inset: 0 0 50%;
+  background: linear-gradient(180deg, rgba(251, 244, 232, 0.72) 0%, rgba(251, 244, 232, 0.45) 55%, rgba(251, 244, 232, 0) 100%);
+  pointer-events: none;
+}
+
 .scene-text {
   position: absolute;
-  inset: 16% 19.5% 27%;
+  top: 5%;
+  left: 5%;
+  right: 5%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 0.35em;
   text-align: center;
   color: var(--ink);
+  text-shadow:
+    0 0 14px rgba(255, 248, 234, 0.95),
+    0 0 3px rgba(255, 248, 234, 0.9);
 }
 .scene-bismillah {
-  margin: 0 0 0.6em;
+  margin: 0 0 1.6cqw;
   font-family: var(--arabic);
-  font-size: clamp(16px, 5.2cqw, 24px);
+  font-size: clamp(15px, 5cqw, 24px);
   color: var(--gold-deep);
-  line-height: 1.6;
+  line-height: 1.5;
 }
 .scene-caps {
   margin: 0;
   font-family: var(--sans);
-  font-size: clamp(9px, 2.6cqw, 11.5px);
+  font-size: clamp(8.5px, 2.5cqw, 11.5px);
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--ink-soft);
 }
 .scene-names {
-  margin: 0.25em 0 0.35em;
+  margin: 1.4cqw 0 0.6cqw;
   display: flex;
   flex-direction: column;
   align-items: center;
   font-family: var(--script);
   font-weight: 400;
-  font-size: clamp(38px, 13.5cqw, 64px);
-  line-height: 1.08;
+  font-size: clamp(34px, 12cqw, 60px);
+  line-height: 1.02;
   color: var(--ink);
   outline: none;
 }
@@ -220,19 +398,67 @@ a {
 .scene-amp {
   font-family: var(--serif);
   font-style: italic;
-  font-size: 0.5em;
-  color: var(--gold);
-  margin: 0.05em 0;
-}
-.scene-date {
-  margin-top: 0.4em;
-}
-.scene-city {
-  margin: 0;
-  font-family: var(--serif);
-  font-style: italic;
-  font-size: clamp(15px, 4.4cqw, 20px);
+  font-size: 0.42em;
   color: var(--gold-deep);
+  margin: 0.02em 0 0.08em;
+}
+.scene-invite {
+  margin: 0 0 3cqw;
+  font-style: italic;
+  font-size: clamp(14px, 4cqw, 19px);
+  color: var(--ink-soft);
+}
+.scene-events {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: start;
+  gap: 3.5cqw;
+  width: 100%;
+  max-width: 78cqw;
+}
+.scene-event p {
+  margin: 0;
+  line-height: 1.3;
+}
+.scene-event__name {
+  margin-bottom: 0.8cqw !important;
+  font-family: var(--sans);
+  font-size: clamp(8.5px, 2.5cqw, 11.5px);
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--gold-deep);
+}
+.scene-event__date {
+  font-size: clamp(12.5px, 3.6cqw, 17px);
+  font-weight: 500;
+}
+.scene-event__day {
+  font-family: var(--sans);
+  font-size: clamp(8px, 2.3cqw, 10.5px);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.scene-event__time {
+  font-style: italic;
+  font-size: clamp(12.5px, 3.6cqw, 17px);
+  color: var(--ink-soft);
+}
+.scene-event__place {
+  font-size: clamp(12.5px, 3.6cqw, 17px);
+  font-weight: 600;
+}
+.scene-events__rule {
+  align-self: stretch;
+  width: 1px;
+  background: linear-gradient(180deg, transparent, var(--gold) 20%, var(--gold) 80%, transparent);
+  transform-origin: 50% 0%;
+}
+.gatefold.is-closed .scene-events__rule,
+.gatefold.is-closed .couple-layer,
+.gatefold.is-closed .scene-fx {
+  opacity: 0;
+  visibility: hidden;
 }
 
 .gatefold.is-closed .reveal-line,
@@ -935,8 +1161,17 @@ a {
    -------------------------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
   .gate-hint,
-  .scroll-cue svg {
+  .scroll-cue svg,
+  .gatefold.is-open .scene-img,
+  .rays,
+  .bird,
+  .bird svg,
+  .motes,
+  .cp-dupatta-tail {
     animation: none;
+  }
+  .birds {
+    display: none;
   }
   .btn {
     transition: none;
