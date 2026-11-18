@@ -1,4 +1,5 @@
 /**
+ * Internal record only (not displayed on the site).
  * Photographs of Masjid an-Nabawi used on the site. The Pexels photos are
  * free to use under the Pexels licence (attribution appreciated, not required).
  * Cropped and colour-graded for this site (scripts/grade_photos.py).

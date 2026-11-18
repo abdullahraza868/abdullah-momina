@@ -47,6 +47,21 @@ def golden_hour(im, strength=0.75, horizon=0.47):
     return Image.fromarray((np.clip(out, 0, 1) * 255).astype('uint8'))
 
 
+def dusk(im, sky_top=(0.06, 0.08, 0.22), horizon_col=(0.9, 0.55, 0.36), strength=0.9, expo=(0.4, 0.52, 0.78, 0.74, 0.6), hz=0.5):
+    """Blue-hour grade: deep navy sky easing to a warm horizon, gently darkened so lettering and figures stand out."""
+    a = np.asarray(im).astype(np.float32) / 255
+    h = a.shape[0]
+    y = np.linspace(0, 1, h)[:, None]
+    sky_top, horizon_col, low = np.array(sky_top), np.array(horizon_col), np.array([0.62, 0.5, 0.42])
+    t1 = np.clip(y / hz, 0, 1)
+    t2 = np.clip((y - hz) / (1 - hz), 0, 1)
+    tint = np.where(y < hz, sky_top + (horizon_col - sky_top) * t1, horizon_col + (low - horizon_col) * t2)[:, None, :]
+    sl = np.where(tint <= 0.5, a - (1 - 2 * tint) * a * (1 - a), a + (2 * tint - 1) * (np.sqrt(a) - a))
+    out = a * (1 - strength) + sl * strength
+    e = np.interp(y[:, 0], [0, 0.35, 0.5, 0.62, 1], expo)[:, None, None]
+    return Image.fromarray((np.clip(out * e, 0, 1) * 255).astype('uint8'))
+
+
 def smooth_sky(im, until=0.55):
     """Soften sensor grain in the sky only, fading out towards the buildings."""
     blurred = im.filter(ImageFilter.GaussianBlur(2.2))
@@ -72,9 +87,9 @@ cw = (H - top) // 2
 cx = int(0.42 * W)
 hero = plaza.crop((cx - cw // 2, top, cx + cw // 2, H))
 hero = smooth_sky(hero, 0.5)
-hero = golden_hour(hero, 0.75, 0.5)
-hero = ImageEnhance.Contrast(hero).enhance(1.06)
-hero = ImageEnhance.Color(hero).enhance(1.08)
+hero = dusk(hero)
+hero = ImageEnhance.Contrast(hero).enhance(1.08)
+hero = ImageEnhance.Color(hero).enhance(1.12)
 save(hero, 'hero', 72, (1200, 720))
 
 # Full-bleed band: sunset with lit minarets.

@@ -74,10 +74,10 @@ The photographs of Masjid an-Nabawi were chosen by the family.
 - Four come from Pexels: nfzzz, Samet Kaplan, Earth Photart and Kamera Yolcusu. The Pexels licence allows free use, and attribution is appreciated but not required.
 - The sunset photo (`scripts/photo-sources/sunset.png`) was supplied by the family.
 
-Credits are listed in `src/config/credits.ts` and shown under **Photo credits** in the footer.
+Sources are recorded in `src/config/credits.ts` (not shown on the site).
 
 - The originals are stored in `scripts/photo-sources/`.
-- `python3 scripts/grade_photos.py` crops and colour-grades them, then writes the web versions to `src/assets/photos/`. For the opening scene, it gives the sky a golden-hour tint and gently smooths sensor grain.
+- `python3 scripts/grade_photos.py` crops and colour-grades them, then writes the web versions to `src/assets/photos/`. For the opening scene, it applies a blue-hour grade (deep navy sky, warm horizon) and gently smooths sensor grain.
 
 The couple in the opening scene is an original illustration (`src/components/art/Couple.tsx`).
 

@@ -4,7 +4,7 @@
  * over her head. Drawn in the same 400×800 frame as the backdrop so it lines
  * up under `preserveAspectRatio="xMidYMid slice"`. Decorative (aria-hidden).
  */
-export function Couple({ placement = 'translate(118 604) scale(0.8) translate(-203 -745)' }: { placement?: string }) {
+export function Couple({ placement = 'translate(116 606) scale(0.9) translate(-203 -745)' }: { placement?: string }) {
   return (
     <svg className="couple-art" viewBox="0 0 400 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
       <defs>
@@ -87,7 +87,8 @@ export function Couple({ placement = 'translate(118 604) scale(0.8) translate(-2
         <path d="M184 562C188 576 189 592 187 610L183 610C184 594 183 578 180 564Z" fill="url(#cp-turban)" opacity="0.95" />
         <path d="M183 608H187.5V612H182.5Z" fill="#C9A35F" />
         {/* rim light from the low sun */}
-        <path d="M160 594L158 650L156 698" stroke="#FFF3D2" strokeWidth="0.9" opacity="0.7" fill="none" />
+        <path d="M160 594L158 650L156 698" stroke="#FFE9B0" strokeWidth="1.4" opacity="0.9" fill="none" />
+        <path d="M198 592L201 640L204 698" stroke="#FFE9B0" strokeWidth="1.1" opacity="0.6" fill="none" />
       </g>
 
       {/* ---------- Bride ---------- */}
@@ -119,7 +120,8 @@ export function Couple({ placement = 'translate(118 604) scale(0.8) translate(-2
           <path d="M244 600C254 626 262 662 268 700C271 720 278 734 286 742" stroke="#E6C27A" strokeWidth="1" fill="none" />
         </g>
         {/* rim light */}
-        <path d="M215 576C210 592 208 612 207 634" stroke="#FFF1D6" strokeWidth="0.9" opacity="0.65" fill="none" />
+        <path d="M215 576C210 592 208 612 207 634" stroke="#FFE9B0" strokeWidth="1.3" opacity="0.85" fill="none" />
+        <path d="M240 574C246 590 249 612 248 636" stroke="#FFE9B0" strokeWidth="1" opacity="0.6" fill="none" />
       </g>
       </g>
       </g>

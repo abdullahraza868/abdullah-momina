@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { wedding, type WeddingEvent } from '../config/wedding'
-import { photoCredits } from '../config/credits'
 import { formatEventDate, timeUntil } from '../lib/dates'
 import { photos } from '../lib/photos'
 import { canNativeShare, copyLink, nativeShare, whatsappContactHref, whatsappShareHref } from '../lib/share'
@@ -277,33 +276,6 @@ export function Closing() {
             </a>
           </p>
         </div>
-        <details className="credits">
-          <summary>Photo credits</summary>
-          <ul>
-            {photoCredits.map((c) => (
-              <li key={c.id}>
-                {c.source ? (
-                  <a href={c.source} target="_blank" rel="noopener noreferrer">
-                    {c.title}
-                  </a>
-                ) : (
-                  c.title
-                )}
-                {c.licenseUrl ? (
-                  <>
-                    {' '}by {c.author} via Pexels (
-                    <a href={c.licenseUrl} target="_blank" rel="noopener noreferrer">
-                      {c.license}
-                    </a>
-                    )
-                  </>
-                ) : (
-                  <> · {c.author}</>
-                )}
-              </li>
-            ))}
-          </ul>
-        </details>
       </div>
     </footer>
   )
