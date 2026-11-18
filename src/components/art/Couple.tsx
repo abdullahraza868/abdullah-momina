@@ -4,7 +4,7 @@
  * over her head. Drawn in the same 400×800 frame as the backdrop so it lines
  * up under `preserveAspectRatio="xMidYMid slice"`. Decorative (aria-hidden).
  */
-export function Couple() {
+export function Couple({ placement = 'translate(196 588) scale(0.84) translate(-203 -745)' }: { placement?: string }) {
   return (
     <svg className="couple-art" viewBox="0 0 400 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
       <defs>
@@ -30,19 +30,28 @@ export function Couple() {
           <stop offset="0" stopColor="#D9A57E" />
           <stop offset="1" stopColor="#A9734F" />
         </linearGradient>
-        <linearGradient id="cp-shadow" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#5A4430" stopOpacity="0.32" />
-          <stop offset="1" stopColor="#5A4430" stopOpacity="0" />
-        </linearGradient>
         <filter id="cp-blur" x="-20%" y="-20%" width="140%" height="140%">
           <feGaussianBlur stdDeviation="2.4" />
         </filter>
+        <filter id="cp-reflect-blur" x="-10%" y="-10%" width="120%" height="120%">
+          <feGaussianBlur stdDeviation="1.6" />
+        </filter>
+        <linearGradient id="cp-reflect-fade" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#fff" stopOpacity="0.55" />
+          <stop offset="0.5" stopColor="#fff" stopOpacity="0" />
+        </linearGradient>
+        <mask id="cp-reflect-mask" maskUnits="userSpaceOnUse" x="0" y="745" width="400" height="400">
+          <rect x="0" y="745" width="400" height="220" fill="url(#cp-reflect-fade)" />
+        </mask>
       </defs>
 
-      <g transform="translate(0 -30)">
-      {/* Long soft shadow cast toward the viewer (sun is behind them). */}
-      <path d="M150 742L250 742L310 830L140 830Z" fill="url(#cp-shadow)" filter="url(#cp-blur)" />
-      <ellipse cx="203" cy="744" rx="58" ry="5" fill="#5A4430" opacity="0.28" filter="url(#cp-blur)" />
+      <g transform={placement}>
+      {/* Reflection on the wet marble. */}
+      <g mask="url(#cp-reflect-mask)" filter="url(#cp-reflect-blur)" opacity="0.6">
+        <use href="#cp-figures" transform="translate(0 1490) scale(1 -1)" />
+      </g>
+      <ellipse cx="203" cy="744" rx="54" ry="4.5" fill="#2A2018" opacity="0.35" filter="url(#cp-blur)" />
+      <g id="cp-figures">
 
       {/* ---------- Groom ---------- */}
       <g className="cp-groom">
@@ -111,6 +120,7 @@ export function Couple() {
         </g>
         {/* rim light */}
         <path d="M215 576C210 592 208 612 207 634" stroke="#FFF1D6" strokeWidth="0.9" opacity="0.65" fill="none" />
+      </g>
       </g>
       </g>
     </svg>

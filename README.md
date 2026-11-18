@@ -68,6 +68,16 @@ How it works:
 - After a successful reply, the guest sees a thank-you. On that device the thank-you stays after a reload, and a "Send another reply" button lets them reply again.
 - **If you change `Code.gs` later**, go to Deploy → Manage deployments → Edit → Version: *New version*. That keeps the same URL.
 
+## Photographs
+
+Five photographs of Masjid an-Nabawi come from Wikimedia Commons and are used under their free licences (CC0, public domain, CC BY 2.0 and CC BY 4.0). Credits are listed in `src/config/credits.ts`, and the site's footer shows them under **Photo credits**. The CC BY licences require that list to stay on the site.
+
+- The originals are stored in `scripts/photo-sources/`.
+- `python3 scripts/grade_photos.py` crops them, warms the colour grade, and writes the web versions to `src/assets/photos/`.
+- The hero image is about 100 KB on desktop and 46 KB on mobile.
+
+The couple in the opening scene is an original illustration (`src/components/art/Couple.tsx`), placed on the photograph with a reflection on the marble.
+
 ## Personal links
 
 `https://your-site/?guest=Ahmed` changes the greeting to "Dear Ahmed" and pre-fills the RSVP name. The value is treated as untrusted:

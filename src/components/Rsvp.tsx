@@ -14,6 +14,7 @@ import {
   type StoredRsvp,
 } from '../lib/rsvp'
 import { whatsappContactHref } from '../lib/share'
+import { Frame } from './Ornament'
 
 type Status = 'idle' | 'submitting' | 'success' | 'error'
 
@@ -81,7 +82,9 @@ export function Rsvp({ guestName }: { guestName: string | null }) {
 
   if (stored) {
     return (
-      <section className="section section--rsvp reveal-up" aria-labelledby="rsvp-title">
+      <section className="band band--paper band--rsvp" aria-labelledby="rsvp-title">
+      <div className="paper-card reveal-up">
+        <Frame />
         <p className="eyebrow">RSVP</p>
         <h2 id="rsvp-title" className="section__title">
           JazakAllah khair
@@ -104,6 +107,7 @@ export function Rsvp({ guestName }: { guestName: string | null }) {
             Send another reply
           </button>
         </div>
+        </div>
       </section>
     )
   }
@@ -119,7 +123,9 @@ export function Rsvp({ guestName }: { guestName: string | null }) {
   const described = (k: keyof RsvpErrors) => (errors[k] ? `${uid}-${k}-err` : undefined)
 
   return (
-    <section className="section section--rsvp reveal-up" aria-labelledby="rsvp-title">
+    <section className="band band--paper band--rsvp" aria-labelledby="rsvp-title">
+      <div className="paper-card reveal-up">
+        <Frame />
       <p className="eyebrow">RSVP</p>
       <h2 id="rsvp-title" className="section__title">
         Kindly reply
@@ -251,6 +257,7 @@ export function Rsvp({ guestName }: { guestName: string | null }) {
           {status === 'error' && <p className="field__error">{serverError}</p>}
         </div>
       </form>
+      </div>
     </section>
   )
 }
