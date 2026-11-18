@@ -1,56 +1,21 @@
 /**
- * Photographs of Masjid an-Nabawi from Wikimedia Commons, used under their
- * free licences. Cropped and colour-graded for this site (scripts/grade_photos.py).
- * CC BY licences require this attribution to stay visible on the site.
+ * Photographs of Masjid an-Nabawi used on the site. The Pexels photos are
+ * free to use under the Pexels licence (attribution appreciated, not required).
+ * Cropped and colour-graded for this site (scripts/grade_photos.py).
  */
 export interface PhotoCredit {
-  id: 'hero' | 'night' | 'dome' | 'umbrella' | 'aerial'
+  id: string
   title: string
   author: string
   license: string
   licenseUrl: string | null
-  source: string
+  source: string | null
 }
 
 export const photoCredits: PhotoCredit[] = [
-  {
-    id: 'hero',
-    title: 'Masjid an-Nabawi at dusk',
-    author: 'Wurzelgnohm',
-    license: 'CC0',
-    licenseUrl: 'https://creativecommons.org/publicdomain/zero/1.0/',
-    source: 'https://commons.wikimedia.org/wiki/File:MasjidNabawi.jpg',
-  },
-  {
-    id: 'night',
-    title: 'The Enlightened City',
-    author: 'Omar Chatriwala',
-    license: 'CC BY 2.0',
-    licenseUrl: 'https://creativecommons.org/licenses/by/2.0/',
-    source: 'https://commons.wikimedia.org/wiki/File:The_Enlightened_City.jpg',
-  },
-  {
-    id: 'dome',
-    title: 'Madina Haram at evening',
-    author: 'Ahmed Medineli',
-    license: 'Public domain',
-    licenseUrl: null,
-    source: 'https://commons.wikimedia.org/wiki/File:Madina_Haram_at_evening.jpg',
-  },
-  {
-    id: 'umbrella',
-    title: 'Masjid Nabawi (Umroh Ramadhan 2023)-59',
-    author: 'Indonesiagood',
-    license: 'CC BY 4.0',
-    licenseUrl: 'https://creativecommons.org/licenses/by/4.0/',
-    source: 'https://commons.wikimedia.org/wiki/File:Masjid_Nabawi_(Umroh_Ramadhan_2023)-59.jpg',
-  },
-  {
-    id: 'aerial',
-    title: "Al-Masjid An-Nabawi (Bird's Eye View)",
-    author: 'Konevi',
-    license: 'CC0',
-    licenseUrl: 'https://creativecommons.org/publicdomain/zero/1.0/',
-    source: "https://commons.wikimedia.org/wiki/File:Al-Masjid_An-Nabawi_(Bird%27s_Eye_View).jpg",
-  },
+  { id: 'hero', title: 'Masjid an-Nabawi courtyard', author: 'nfzzz', license: 'Pexels licence', licenseUrl: 'https://www.pexels.com/license/', source: 'https://www.pexels.com/photo/24284829/' },
+  { id: 'domes', title: 'The Green Dome and minarets', author: 'Samet Kaplan', license: 'Pexels licence', licenseUrl: 'https://www.pexels.com/license/', source: 'https://www.pexels.com/photo/38498727/' },
+  { id: 'lanterns', title: 'Lanterns and minaret at dusk', author: 'Earth Photart', license: 'Pexels licence', licenseUrl: 'https://www.pexels.com/license/', source: 'https://www.pexels.com/photo/35385107/' },
+  { id: 'silhouette', title: 'Minaret at sunset', author: 'Kamera Yolcusu', license: 'Pexels licence', licenseUrl: 'https://www.pexels.com/license/', source: 'https://www.pexels.com/photo/39599259/' },
+  { id: 'sunset', title: 'Masjid an-Nabawi at sunset', author: 'Supplied by the family', license: '', licenseUrl: null, source: null },
 ]

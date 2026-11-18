@@ -55,7 +55,7 @@ export function PhotoBand() {
   return (
     <section className="photo-band" aria-label="Al-Madinah al-Munawwarah">
       <div className="photo-band__media" data-parallax>
-        <img src={photos.night.src} srcSet={photos.night.srcSet} sizes="100vw" alt="Masjid an-Nabawi lit up at night, its minarets glowing above the marble courtyard" loading="lazy" decoding="async" />
+        <img src={photos.sunset.src} srcSet={photos.sunset.srcSet} sizes="100vw" alt="Masjid an-Nabawi at sunset, its minarets lit above the reflective marble courtyard" loading="lazy" decoding="async" />
       </div>
       <div className="photo-band__text">
         <p className="photo-band__ar gold-foil" lang="ar" dir="rtl">
@@ -73,8 +73,8 @@ export function PhotoBand() {
 }
 
 const eventPhoto: Record<WeddingEvent['id'], { src: string; srcSet: string; alt: string }> = {
-  nikkah: { ...photos.dome, alt: 'The Green Dome and minarets of Masjid an-Nabawi at evening' },
-  reception: { ...photos.umbrella, alt: 'An open umbrella canopy in the courtyard of Masjid an-Nabawi' },
+  nikkah: { ...photos.domes, alt: 'The Green Dome and silver dome of Masjid an-Nabawi between two minarets' },
+  reception: { ...photos.lanterns, alt: 'Lantern columns and a lit minaret of Masjid an-Nabawi at dusk' },
 }
 
 function EventCard({ event }: { event: WeddingEvent }) {
@@ -206,9 +206,9 @@ export function Remembrance() {
 /** Three arch-framed photographs of Masjid an-Nabawi. */
 export function Gallery() {
   const items = [
-    { ...photos.aerial, alt: 'Masjid an-Nabawi from above, the Green Dome among white domes and minarets', caption: 'The Green Dome' },
-    { ...photos.dome, alt: 'Evening over the courtyard of Masjid an-Nabawi', caption: 'Evening in the courtyard' },
-    { ...photos.umbrella, alt: 'The great umbrellas of the courtyard, opened', caption: 'The umbrellas of the Haram' },
+    { ...photos.domeTall, alt: 'The Green Dome of Masjid an-Nabawi against a clear sky', caption: 'The Green Dome' },
+    { ...photos.silhouette, alt: 'A minaret and the Green Dome silhouetted against the sunset', caption: 'Minarets at sunset' },
+    { ...photos.lanternsTall, alt: 'Golden lantern columns and a lit minaret at dusk', caption: 'Lanterns of the Haram' },
   ]
   return (
     <section className="band" aria-labelledby="gallery-title">
@@ -282,18 +282,24 @@ export function Closing() {
           <ul>
             {photoCredits.map((c) => (
               <li key={c.id}>
-                <a href={c.source} target="_blank" rel="noopener noreferrer">
-                  {c.title}
-                </a>{' '}
-                by {c.author},{' '}
-                {c.licenseUrl ? (
-                  <a href={c.licenseUrl} target="_blank" rel="noopener noreferrer">
-                    {c.license}
+                {c.source ? (
+                  <a href={c.source} target="_blank" rel="noopener noreferrer">
+                    {c.title}
                   </a>
                 ) : (
-                  c.license
+                  c.title
                 )}
-                , via Wikimedia Commons. Cropped and colour-graded.
+                {c.licenseUrl ? (
+                  <>
+                    {' '}by {c.author} via Pexels (
+                    <a href={c.licenseUrl} target="_blank" rel="noopener noreferrer">
+                      {c.license}
+                    </a>
+                    )
+                  </>
+                ) : (
+                  <> · {c.author}</>
+                )}
               </li>
             ))}
           </ul>

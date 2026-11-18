@@ -70,13 +70,16 @@ How it works:
 
 ## Photographs
 
-Five photographs of Masjid an-Nabawi come from Wikimedia Commons and are used under their free licences (CC0, public domain, CC BY 2.0 and CC BY 4.0). Credits are listed in `src/config/credits.ts`, and the site's footer shows them under **Photo credits**. The CC BY licences require that list to stay on the site.
+The photographs of Masjid an-Nabawi were chosen by the family.
+- Four come from Pexels: nfzzz, Samet Kaplan, Earth Photart and Kamera Yolcusu. The Pexels licence allows free use, and attribution is appreciated but not required.
+- The sunset photo (`scripts/photo-sources/sunset.png`) was supplied by the family.
+
+Credits are listed in `src/config/credits.ts` and shown under **Photo credits** in the footer.
 
 - The originals are stored in `scripts/photo-sources/`.
-- `python3 scripts/grade_photos.py` crops them, warms the colour grade, and writes the web versions to `src/assets/photos/`.
-- The hero image is about 100 KB on desktop and 46 KB on mobile.
+- `python3 scripts/grade_photos.py` crops and colour-grades them, then writes the web versions to `src/assets/photos/`. For the opening scene, it gives the sky a golden-hour tint and gently smooths sensor grain.
 
-The couple in the opening scene is an original illustration (`src/components/art/Couple.tsx`), placed on the photograph with a reflection on the marble.
+The couple in the opening scene is an original illustration (`src/components/art/Couple.tsx`).
 
 ## Personal links
 

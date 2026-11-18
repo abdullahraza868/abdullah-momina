@@ -4,7 +4,7 @@
  * over her head. Drawn in the same 400×800 frame as the backdrop so it lines
  * up under `preserveAspectRatio="xMidYMid slice"`. Decorative (aria-hidden).
  */
-export function Couple({ placement = 'translate(196 588) scale(0.84) translate(-203 -745)' }: { placement?: string }) {
+export function Couple({ placement = 'translate(118 604) scale(0.8) translate(-203 -745)' }: { placement?: string }) {
   return (
     <svg className="couple-art" viewBox="0 0 400 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
       <defs>
