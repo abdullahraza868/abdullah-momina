@@ -88,7 +88,7 @@ The couple in the opening scene is an original illustration (`src/components/art
 - Only letters (in any script), spaces and `. ' - &` are kept.
 - It's capped at 40 characters, and React escapes it when rendering.
 
-Without `?guest`, the greeting is "Dear Family & Friends". The share buttons always share the link *without* the personal name.
+The personal name appears above the closed card as "An invitation for Ahmed". Without `?guest`, it reads "You are cordially invited".
 
 For WhatsApp, encode spaces: `?guest=Ahmed%20Khan` (most phones do this automatically). Later you could swap the name for an opaque ID (`?g=7f3a`) looked up in a small map, so the code is ready for that.
 
@@ -129,7 +129,7 @@ It's a static site, so any static host works.
   - Build command: `npm run build`
   - Output directory: `dist`
   - Environment variable: `VITE_RSVP_ENDPOINT`
-- Use HTTPS, which these hosts give by default. The native share sheet and modern clipboard only work over HTTPS.
+- Use HTTPS, which these hosts give by default.
 - For good WhatsApp link previews, add a 1200×630 `public/og.jpg` and an `og:image` meta tag in `index.html` once the final artwork is approved.
 
 ## What was and wasn't tested
