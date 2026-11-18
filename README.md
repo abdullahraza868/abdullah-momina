@@ -92,12 +92,15 @@ Without `?guest`, the greeting is "Dear Family & Friends". The share buttons alw
 
 For WhatsApp, encode spaces: `?guest=Ahmed%20Khan` (most phones do this automatically). Later you could swap the name for an opaque ID (`?g=7f3a`) looked up in a small map, so the code is ready for that.
 
-## Audio
+## Audio (background nasheed)
 
-Put an MP3 at `public/audio/nasheed.mp3` and rebuild. Behaviour:
-- It never autoplays. A small round button appears after the card opens, and audio starts only when a guest presses it.
-- If the file is missing, or the server returns an HTML page instead of audio, the button doesn't appear at all.
-- The button has an accessible label and `aria-pressed`, and the audio loops at moderate volume.
+`public/audio/nasheed.mp3` is **"Background Nasheed 37"** by I_read_quran from Pixabay. It's a slow, vocal-only choir nasheed, free to use under the [Pixabay Content License](https://pixabay.com/service/license-summary/).
+- The file was re-encoded at 112 kbps (1.3 MB) with a 2-second fade-in and 3-second fade-out so it loops smoothly, and normalised to a soft background level.
+- It starts when the guest opens the invitation (button, seal tap, tassel pull or keyboard). Phones only allow sound to start from a tap like this, never on page load.
+- It fades in to about 45% volume and loops.
+- A gold round button in the bottom-right corner pauses and resumes it; while it plays, the button shows moving bars.
+- It pauses automatically while the page is in the background.
+- To use a different nasheed, replace the file and keep the same name.
 
 ## Countdown and dates
 
@@ -135,7 +138,7 @@ Tested (headless Chrome, mobile 390×844 and desktop 1440×900):
 - Opening by drag, tap and keyboard, with focus landing on the names.
 - Reduced motion.
 - The no-audio path.
-- Copy link, the WhatsApp share URL and the Maps link.
+- The Maps link.
 - Personal-greeting sanitising.
 - Countdown and dates across time zones.
 - RSVP validation, network error, server error, loading state, double-submit protection, success, and persistence after reload. This was against a mocked endpoint, not a live Google deployment.

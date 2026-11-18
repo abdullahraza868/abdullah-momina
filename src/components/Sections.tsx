@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import { wedding, type WeddingEvent } from '../config/wedding'
 import { formatEventDate, timeUntil } from '../lib/dates'
 import { photos } from '../lib/photos'
-import { canNativeShare, copyLink, nativeShare, whatsappContactHref, whatsappShareHref } from '../lib/share'
 import { ArcadeLine, Divider, Lantern, RoyalFrame } from './Ornament'
 
 /** Splits text on ﷻ / ﷺ so the honorific renders in the Arabic face. */
@@ -233,12 +232,6 @@ export function Gallery() {
 }
 
 export function Closing() {
-  const [copied, setCopied] = useState<'idle' | 'ok' | 'fail'>('idle')
-  const [hasShare] = useState(canNativeShare)
-  const onCopy = async () => {
-    setCopied((await copyLink()) ? 'ok' : 'fail')
-    window.setTimeout(() => setCopied('idle'), 2500)
-  }
   return (
     <footer className="band band--closing" aria-labelledby="closing-title">
       <ArcadeLine />
@@ -250,32 +243,7 @@ export function Closing() {
           We look forward to celebrating with you
         </h2>
         <p className="lead lead--light">Please keep us in your duas.</p>
-        <div className="actions">
-          <a className="btn btn--gold" href={whatsappShareHref()} target="_blank" rel="noopener noreferrer">
-            Share on WhatsApp
-          </a>
-          <button type="button" className="btn btn--outline-light" onClick={onCopy}>
-            {copied === 'ok' ? 'Link copied' : copied === 'fail' ? 'Copy failed' : 'Copy link'}
-          </button>
-          {hasShare && (
-            <button type="button" className="btn btn--outline-light" onClick={() => void nativeShare()}>
-              Share…
-            </button>
-          )}
-        </div>
-        <p className="visually-hidden" role="status" aria-live="polite">
-          {copied === 'ok' ? 'Invitation link copied to clipboard.' : copied === 'fail' ? 'Could not copy the link.' : ''}
-        </p>
-        <div className="contact">
-          <p className="eyebrow">Questions</p>
-          <p>
-            <a href={`tel:+${wedding.contact.e164}`}>{wedding.contact.display}</a>
-            <span aria-hidden="true"> · </span>
-            <a href={whatsappContactHref()} target="_blank" rel="noopener noreferrer">
-              WhatsApp
-            </a>
-          </p>
-        </div>
+        <Divider />
       </div>
     </footer>
   )

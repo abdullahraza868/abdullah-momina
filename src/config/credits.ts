@@ -20,3 +20,11 @@ export const photoCredits: PhotoCredit[] = [
   { id: 'silhouette', title: 'Minaret at sunset', author: 'Kamera Yolcusu', license: 'Pexels licence', licenseUrl: 'https://www.pexels.com/license/', source: 'https://www.pexels.com/photo/39599259/' },
   { id: 'sunset', title: 'Masjid an-Nabawi at sunset', author: 'Supplied by the family', license: '', licenseUrl: null, source: null },
 ]
+
+/** Background audio (internal record). */
+export const audioCredit = {
+  title: 'Background Nasheed 37',
+  author: 'I_read_quran',
+  license: 'Pixabay Content License',
+  source: 'https://pixabay.com/music/choir-background-nasheed-37-499777/',
+}

@@ -7,6 +7,7 @@ import { prefersReducedMotion } from '../lib/motion'
 import { Birds, Couple } from './art/Couple'
 import { RoyalFrame, SkylineLine } from './Ornament'
 import { photos } from '../lib/photos'
+import { nasheed } from '../lib/nasheed'
 import { CardFace, CardInside } from './art/CardFace'
 import { Tassel } from './art/Tassel'
 
@@ -112,6 +113,8 @@ export function Gatefold({ invite, onOpened }: Props) {
 
   const open = useCallback(() => {
     if (phaseRef.current !== 'closed' || !ctxRef.current) return
+    // Start the nasheed inside the guest's own gesture (required by mobile browsers).
+    nasheed.start()
     phaseRef.current = 'opening'
     setPhase('opening')
     swayRef.current?.kill()
