@@ -16,7 +16,8 @@ let state: NasheedState = 'idle'
 let resumeOnVisible = false
 let fadeTimer = 0
 const listeners = new Set<() => void>()
-const TARGET_VOLUME = 0.45
+/** Kept low so it sits quietly in the background. */
+const TARGET_VOLUME = 0.28
 
 function set(next: NasheedState) {
   state = next

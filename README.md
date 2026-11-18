@@ -94,13 +94,13 @@ For WhatsApp, encode spaces: `?guest=Ahmed%20Khan` (most phones do this automati
 
 ## Audio (background nasheed)
 
-`public/audio/nasheed.mp3` is **"Background Nasheed 37"** by I_read_quran from Pixabay. It's a slow, vocal-only choir nasheed, free to use under the [Pixabay Content License](https://pixabay.com/service/license-summary/).
-- The file was re-encoded at 112 kbps (1.3 MB) with a 2-second fade-in and 3-second fade-out so it loops smoothly, and normalised to a soft background level.
-- It starts when the guest opens the invitation (button, seal tap, tassel pull or keyboard). Phones only allow sound to start from a tap like this, never on page load.
-- It fades in to about 45% volume and loops.
-- A gold round button in the bottom-right corner pauses and resumes it; while it plays, the button shows moving bars.
-- It pauses automatically while the page is in the background.
-- To use a different nasheed, replace the file and keep the same name.
+`public/audio/nasheed.mp3` is **"Bismillah Tere Naam Se Shuru"** (Kailash Kher, from the album *Azaan*), supplied by the family.
+- It starts at 0:49 of the original track.
+- It was re-encoded at 96 kbps with a 2.5-second fade-in and 4-second fade-out, so the loop is seamless.
+- It was normalised to a quiet level (−24 LUFS), and the player then fades it in to only about 28% volume.
+- Playback starts from the guest's opening tap, seal tap or tassel pull, never on page load, and then loops.
+- The gold button in the bottom-right corner pauses and resumes it, and it pauses automatically while the page is in the background.
+- To change the track, replace the file and keep the same name. To change the loudness, edit `TARGET_VOLUME` in `src/lib/nasheed.ts`.
 
 ## Countdown and dates
 

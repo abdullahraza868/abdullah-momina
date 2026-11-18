@@ -23,8 +23,8 @@ export const photoCredits: PhotoCredit[] = [
 
 /** Background audio (internal record). */
 export const audioCredit = {
-  title: 'Background Nasheed 37',
-  author: 'I_read_quran',
-  license: 'Pixabay Content License',
-  source: 'https://pixabay.com/music/choir-background-nasheed-37-499777/',
+  title: 'Bismillah Tere Naam Se Shuru',
+  author: 'Kailash Kher (album: Azaan)',
+  license: 'Supplied by the family',
+  source: null,
 }
