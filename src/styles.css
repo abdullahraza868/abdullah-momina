@@ -880,38 +880,64 @@ a {
 
 .scroll-cue {
   position: absolute;
-  left: 50%;
-  bottom: max(2.2%, env(safe-area-inset-bottom));
-  transform: translateX(-50%);
+  left: 0;
+  right: 0;
+  width: max-content;
+  margin: 0 auto;
+  bottom: max(calc(7cqw - 20px), calc(env(safe-area-inset-bottom) + 6px));
+  z-index: 6;
   display: inline-flex;
-  flex-direction: column;
   align-items: center;
-  gap: 2px;
-  padding: 4px 14px;
+  gap: 10px;
+  padding: 10px 16px 10px 19px;
   border-radius: 999px;
-  background: none;
-  border: 0;
-  color: rgba(248, 241, 226, 0.85);
+  white-space: nowrap;
+  color: #1b1408;
+  background: linear-gradient(180deg, #f6e2a8 0%, #d9b465 48%, #b8893c 100%);
+  border: 1px solid rgba(255, 240, 200, 0.7);
+  box-shadow: 0 0 0 4px rgba(12, 18, 38, 0.55), 0 10px 26px rgba(0, 0, 0, 0.45);
   font-family: var(--sans);
-  font-size: 10px;
-  letter-spacing: 0.3em;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
   text-decoration: none;
-  backdrop-filter: blur(4px);
+  animation: cue-glow 2.2s ease-in-out infinite;
 }
-.scroll-cue svg {
-  width: 10px;
-  height: 14px;
-  animation: nudge 2.4s ease-in-out infinite;
+.scroll-cue:focus-visible {
+  outline: 2px solid #f8f1e2;
+  outline-offset: 5px;
 }
-@keyframes nudge {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(3px);
-  }
+.scroll-cue__chev {
+  display: grid;
+  width: 14px;
+  height: 18px;
+  animation: cue-bounce 1.4s ease-in-out infinite;
+}
+.scroll-cue__chev svg {
+  grid-area: 1 / 1;
+  width: 14px;
+  height: 9px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.scroll-cue__chev svg + svg {
+  margin-top: 8px;
+  opacity: 0.55;
+}
+@keyframes cue-bounce {
+  0%, 100% { transform: translateY(-2px); }
+  50% { transform: translateY(4px); }
+}
+@keyframes cue-glow {
+  0%, 100% { box-shadow: 0 0 0 4px rgba(12, 18, 38, 0.55), 0 10px 26px rgba(0, 0, 0, 0.45), 0 0 0 0 rgba(232, 196, 110, 0.55); }
+  50% { box-shadow: 0 0 0 4px rgba(12, 18, 38, 0.55), 0 10px 26px rgba(0, 0, 0, 0.45), 0 0 0 12px rgba(232, 196, 110, 0); }
+}
+.royal-frame--hero .rf-crest--bottom {
+  display: none;
 }
 
 /* --------------------------------------------------------------------------
@@ -2060,7 +2086,8 @@ body:has(.page.is-opened) .ambient-dust {
    -------------------------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
   .gate-hint,
-  .scroll-cue svg,
+  .scroll-cue,
+  .scroll-cue__chev,
   .gatefold.is-open .scene-img,
   .bird,
   .bird svg,

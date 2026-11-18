@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { setupScrollFx } from './lib/scrollFx'
+import { gsap } from './lib/gsap'
 import { wedding } from './config/wedding'
 import { readGuestFromUrl } from './lib/guest'
 import { ArtDefs } from './components/art/Defs'
@@ -19,6 +20,28 @@ export default function App() {
   const onOpened = useCallback(() => setOpened(true), [])
 
   // Scroll choreography for the story (skipped for reduced motion inside setupScrollFx).
+  useEffect(() => {
+    // One gentle "peek" if the guest hasn't scrolled shortly after opening,
+    // so it's obvious there is more below the first screen.
+    if (!opened || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    let tween: gsap.core.Timeline | null = null
+    const events = ['wheel', 'touchstart', 'keydown', 'pointerdown'] as const
+    const cancel = () => {
+      window.clearTimeout(timer)
+      tween?.kill()
+      events.forEach((ev) => window.removeEventListener(ev, cancel))
+    }
+    events.forEach((ev) => window.addEventListener(ev, cancel, { passive: true }))
+    const timer = window.setTimeout(() => {
+      if (window.scrollY > 8) return cancel()
+      tween = gsap
+        .timeline({ onComplete: cancel })
+        .to(window, { scrollTo: 110, duration: 0.7, ease: 'power2.out' })
+        .to(window, { scrollTo: 0, duration: 0.8, ease: 'power2.inOut' }, '+=0.35')
+    }, 5200)
+    return cancel
+  }, [opened])
+
   useEffect(() => {
     if (!opened || !mainRef.current) return
     return setupScrollFx(mainRef.current)

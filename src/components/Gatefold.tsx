@@ -188,6 +188,14 @@ export function Gatefold({ invite, onOpened }: Props) {
     })
   }, [onOpened])
 
+  const onScrollCue = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    const target = document.getElementById('invitation')
+    if (!target) return
+    e.preventDefault()
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' })
+  }
+
   // Pointer handling for the pull.
   const onPointerDown = (e: React.PointerEvent<HTMLButtonElement>) => {
     if (phaseRef.current !== 'closed' || (e.pointerType === 'mouse' && e.button !== 0)) return
@@ -302,11 +310,12 @@ export function Gatefold({ invite, onOpened }: Props) {
             <p className="scene-event__place">{receptionEv.venue?.name ?? 'Madinah'}</p>
           </div>
         </div>
-        <a className="scroll-cue" href="#invitation" tabIndex={isOpen ? 0 : -1}>
-          <span>Scroll</span>
-          <svg viewBox="0 0 12 16" aria-hidden="true">
-            <path d="M6 1V14M1 9L6 14L11 9" fill="none" stroke="currentColor" strokeWidth="1.2" />
-          </svg>
+        <a className="scroll-cue" href="#invitation" tabIndex={isOpen ? 0 : -1} onClick={onScrollCue}>
+          <span className="scroll-cue__label">Scroll for details</span>
+          <span className="scroll-cue__chev" aria-hidden="true">
+            <svg viewBox="0 0 16 10"><path d="M2 2l6 6 6-6" /></svg>
+            <svg viewBox="0 0 16 10"><path d="M2 2l6 6 6-6" /></svg>
+          </span>
         </a>
       </div>
 
