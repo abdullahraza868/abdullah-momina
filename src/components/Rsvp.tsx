@@ -14,7 +14,7 @@ import {
   type StoredRsvp,
 } from '../lib/rsvp'
 import { whatsappContactHref } from '../lib/share'
-import { Frame } from './Ornament'
+import { ArcadeLine, RoyalFrame } from './Ornament'
 
 type Status = 'idle' | 'submitting' | 'success' | 'error'
 
@@ -82,9 +82,10 @@ export function Rsvp({ guestName }: { guestName: string | null }) {
 
   if (stored) {
     return (
-      <section className="band band--paper band--rsvp" aria-labelledby="rsvp-title">
-      <div className="paper-card reveal-up">
-        <Frame />
+      <section className="band band--rsvp" aria-labelledby="rsvp-title">
+      <ArcadeLine />
+      <div className="paper-card">
+        <RoyalFrame />
         <p className="eyebrow">RSVP</p>
         <h2 id="rsvp-title" className="section__title">
           JazakAllah khair
@@ -123,9 +124,10 @@ export function Rsvp({ guestName }: { guestName: string | null }) {
   const described = (k: keyof RsvpErrors) => (errors[k] ? `${uid}-${k}-err` : undefined)
 
   return (
-    <section className="band band--paper band--rsvp" aria-labelledby="rsvp-title">
-      <div className="paper-card reveal-up">
-        <Frame />
+    <section className="band band--rsvp" aria-labelledby="rsvp-title">
+      <ArcadeLine />
+      <div className="paper-card">
+        <RoyalFrame />
       <p className="eyebrow">RSVP</p>
       <h2 id="rsvp-title" className="section__title">
         Kindly reply

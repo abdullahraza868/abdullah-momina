@@ -1,9 +1,11 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
-import { gsap } from 'gsap'
+import { gsap } from '../lib/gsap'
+import { addFrameDraw } from '../lib/scrollFx'
 import { wedding } from '../config/wedding'
 import { formatEventDate } from '../lib/dates'
 import { prefersReducedMotion } from '../lib/motion'
 import { Birds, Couple } from './art/Couple'
+import { RoyalFrame } from './Ornament'
 import { photos } from '../lib/photos'
 import { CardFace, CardInside } from './art/CardFace'
 import { Tassel } from './art/Tassel'
@@ -134,7 +136,8 @@ export function Gatefold({ greeting, onOpened }: Props) {
         .fromTo(q('.scene-event'), { autoAlpha: 0, y: 10 }, { autoAlpha: 1, y: 0, duration: 0.8, stagger: 0.18 }, 2.6)
         .fromTo(q('.scene-card__rule'), { scaleY: 0 }, { scaleY: 1, duration: 0.9, ease: 'power2.inOut' }, 2.6)
         .fromTo(q('.sweep'), { xPercent: -120 }, { xPercent: 120, duration: 2.4, ease: 'power2.inOut' }, 1.0)
-        .fromTo(q('.scroll-cue'), { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: 0.6 }, '-=0.2')
+        .fromTo(q('.scroll-cue'), { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: 0.6 }, 3.2)
+      addFrameDraw(tl, rootRef.current!.querySelector('.scene')!, 1.3)
       tl.call(finish, [], 1.95)
     })
   }, [onOpened])
@@ -205,6 +208,7 @@ export function Gatefold({ greeting, onOpened }: Props) {
         <div className="couple-layer">
           <Couple />
         </div>
+        <RoyalFrame crest className="royal-frame--hero" />
         <div className="scene-text">
           <p className="reveal-line scene-bismillah" lang="ar" dir="rtl">
             بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ

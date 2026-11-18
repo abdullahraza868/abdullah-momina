@@ -4,7 +4,7 @@ import { photoCredits } from '../config/credits'
 import { formatEventDate, timeUntil } from '../lib/dates'
 import { photos } from '../lib/photos'
 import { canNativeShare, copyLink, nativeShare, whatsappContactHref, whatsappShareHref } from '../lib/share'
-import { ArcadeEdge, Divider, Frame, Lantern } from './Ornament'
+import { ArcadeLine, Divider, Lantern, RoyalFrame } from './Ornament'
 
 /** Splits text on ﷻ / ﷺ so the honorific renders in the Arabic face. */
 function withHonorifics(text: string) {
@@ -21,9 +21,10 @@ function withHonorifics(text: string) {
 
 export function InvitationText({ greeting }: { greeting: string }) {
   return (
-    <section id="invitation" className="band band--paper" aria-labelledby="intro-title" tabIndex={-1}>
-      <div className="paper-card reveal-up">
-        <Frame />
+    <section id="invitation" className="band" aria-labelledby="intro-title" tabIndex={-1}>
+      <ArcadeLine />
+      <div className="paper-card">
+        <RoyalFrame />
         <p className="eyebrow">{greeting}</p>
         <h2 id="intro-title" className="visually-hidden">
           Invitation
@@ -56,11 +57,11 @@ export function PhotoBand() {
       <div className="photo-band__media" data-parallax>
         <img src={photos.night.src} srcSet={photos.night.srcSet} sizes="100vw" alt="Masjid an-Nabawi lit up at night, its minarets glowing above the marble courtyard" loading="lazy" decoding="async" />
       </div>
-      <div className="photo-band__text reveal-up">
+      <div className="photo-band__text">
         <p className="photo-band__ar gold-foil" lang="ar" dir="rtl">
           المدينة المنورة
         </p>
-        <p className="eyebrow eyebrow--light">
+        <p className="eyebrow">
           Al-Madinah al-Munawwarah
           <br />
           The Radiant City
@@ -81,7 +82,7 @@ function EventCard({ event }: { event: WeddingEvent }) {
   const venue = event.venue
   const img = eventPhoto[event.id]
   return (
-    <article className="event reveal-up" aria-labelledby={`ev-${event.id}`}>
+    <article className="event" aria-labelledby={`ev-${event.id}`}>
       <div className="event__window arch-mask">
         <img src={img.src} srcSet={img.srcSet} sizes="(min-width: 760px) 340px, 90vw" alt={img.alt} loading="lazy" decoding="async" />
       </div>
@@ -137,8 +138,8 @@ function Countdown() {
     [r.seconds, 'Seconds'],
   ]
   return (
-    <div className="countdown-block reveal-up" role="group" aria-labelledby="cd-title">
-      <p className="eyebrow eyebrow--light">Counting the days</p>
+    <div className="countdown-block" role="group" aria-labelledby="cd-title">
+      <p className="eyebrow">Counting the days</p>
       <h2 id="cd-title" className="night-title">
         Until the Nikkah
       </h2>
@@ -169,10 +170,10 @@ function Countdown() {
 /** Night section: the two events and the countdown, on deep navy with gold. */
 export function Celebrations() {
   return (
-    <section className="band band--night" aria-labelledby="events-title">
-      <ArcadeEdge />
+    <section className="band" aria-labelledby="events-title">
+      <ArcadeLine />
       <div className="wrap">
-        <p className="eyebrow eyebrow--light">Save the dates</p>
+        <p className="eyebrow">Save the dates</p>
         <h2 id="events-title" className="night-title">
           The Celebrations
         </h2>
@@ -183,7 +184,6 @@ export function Celebrations() {
         </div>
         <Countdown />
       </div>
-      <ArcadeEdge flip />
     </section>
   )
 }
@@ -191,7 +191,7 @@ export function Celebrations() {
 export function Remembrance() {
   return (
     <section className="band band--memory" aria-label="In loving memory">
-      <div className="wrap wrap--narrow reveal-up">
+      <div className="wrap wrap--narrow">
         <Lantern />
         {wedding.remembrance.lines.map((line, i) => (
           <p key={i} className={i === 0 ? 'memory__line' : 'memory__dua'}>
@@ -211,15 +211,16 @@ export function Gallery() {
     { ...photos.umbrella, alt: 'The great umbrellas of the courtyard, opened', caption: 'The umbrellas of the Haram' },
   ]
   return (
-    <section className="band band--paper" aria-labelledby="gallery-title">
+    <section className="band" aria-labelledby="gallery-title">
+      <ArcadeLine />
       <div className="wrap">
         <p className="eyebrow">Masjid an-Nabawi</p>
-        <h2 id="gallery-title" className="section__title">
+        <h2 id="gallery-title" className="night-title">
           Where we say Qubool
         </h2>
         <ul className="gallery">
           {items.map((it) => (
-            <li key={it.caption} className="gallery__item reveal-arch">
+            <li key={it.caption} className="gallery__item">
               <div className="gallery__frame arch-mask">
                 <img src={it.src} srcSet={it.srcSet} sizes="(min-width: 760px) 300px, 70vw" alt={it.alt} loading="lazy" decoding="async" />
               </div>
@@ -240,9 +241,9 @@ export function Closing() {
     window.setTimeout(() => setCopied('idle'), 2500)
   }
   return (
-    <footer className="band band--night band--closing" aria-labelledby="closing-title">
-      <ArcadeEdge />
-      <div className="wrap reveal-up">
+    <footer className="band band--closing" aria-labelledby="closing-title">
+      <ArcadeLine />
+      <div className="wrap">
         <p className="monogram gold-foil" aria-hidden="true">
           A <span>&amp;</span> M
         </p>
@@ -267,7 +268,7 @@ export function Closing() {
           {copied === 'ok' ? 'Invitation link copied to clipboard.' : copied === 'fail' ? 'Could not copy the link.' : ''}
         </p>
         <div className="contact">
-          <p className="eyebrow eyebrow--light">Questions</p>
+          <p className="eyebrow">Questions</p>
           <p>
             <a href={`tel:+${wedding.contact.e164}`}>{wedding.contact.display}</a>
             <span aria-hidden="true"> · </span>

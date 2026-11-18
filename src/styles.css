@@ -34,7 +34,7 @@
 
 html {
   -webkit-text-size-adjust: 100%;
-  background: var(--parchment);
+  background: #0d1729;
 }
 html.is-locked,
 html.is-locked body {
@@ -50,8 +50,10 @@ body {
   font-size: 18px;
   line-height: 1.55;
   background:
-    var(--grain),
-    radial-gradient(120% 70% at 50% 0%, #fbf6ec 0%, #f4ecdd 50%, #ece1cc 100%);
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56'%3E%3Cg fill='none' stroke='%23e9d08f' stroke-opacity='.075' stroke-width='.7'%3E%3Crect x='18.5' y='18.5' width='19' height='19'/%3E%3Crect x='18.5' y='18.5' width='19' height='19' transform='rotate(45 28 28)'/%3E%3Cpath d='M28 14.6V0M28 41.4V56M14.6 28H0M41.4 28H56'/%3E%3C/g%3E%3C/svg%3E"),
+    radial-gradient(80% 50% at 50% 0%, rgba(233, 208, 143, 0.14), transparent 70%),
+    radial-gradient(60% 40% at 50% 100%, rgba(233, 208, 143, 0.1), transparent 70%),
+    linear-gradient(180deg, #0f1b30 0%, #0b1424 100%);
   background-attachment: fixed;
   -webkit-font-smoothing: antialiased;
 }
@@ -381,7 +383,7 @@ a {
 
 .scene-text {
   position: absolute;
-  top: 4.5%;
+  top: 10.5%;
   left: 6%;
   right: 6%;
   display: flex;
@@ -440,9 +442,9 @@ a {
 /* Frosted details card over the reflective marble. */
 .scene-card {
   position: absolute;
-  left: 5%;
-  right: 5%;
-  bottom: 7.5%;
+  left: 11%;
+  right: 11%;
+  bottom: 10.5%;
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   gap: 3.5cqw;
@@ -517,6 +519,7 @@ a {
   font-weight: 500;
   color: #f3e3b8;
 }
+.gatefold.is-closed .royal-frame--hero,
 .gatefold.is-closed .scene-card,
 .gatefold.is-closed .couple-layer,
 .gatefold.is-closed .scene-fx {
@@ -533,7 +536,7 @@ a {
 .scroll-cue {
   position: absolute;
   left: 50%;
-  bottom: max(1.6%, env(safe-area-inset-bottom));
+  bottom: max(2.2%, env(safe-area-inset-bottom));
   transform: translateX(-50%);
   display: inline-flex;
   flex-direction: column;
@@ -783,57 +786,159 @@ a {
 
 .band {
   position: relative;
-  padding: 84px 0;
+  padding: 72px 0 88px;
   text-align: center;
+  color: var(--night-ink);
+}
+.band::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: min(900px, 120%);
+  height: 420px;
+  transform: translateX(-50%);
+  background: radial-gradient(closest-side, rgba(233, 208, 143, 0.1), transparent);
+  pointer-events: none;
 }
 .band:focus {
   outline: none;
 }
-.band--paper {
-  background:
-    var(--grain),
-    radial-gradient(120% 60% at 50% 0%, #fbf6ec 0%, #f4ecdd 60%, #efe4cf 100%);
-}
-.band--night {
-  padding: 120px 0;
-  color: var(--night-ink);
-  background:
-    radial-gradient(90% 50% at 50% 0%, rgba(233, 208, 143, 0.12), transparent 70%),
-    radial-gradient(70% 40% at 50% 100%, rgba(233, 208, 143, 0.08), transparent 70%),
-    var(--night);
-}
-.band--night::before {
-  /* faint gold khatam lattice */
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56'%3E%3Cg fill='none' stroke='%23e9d08f' stroke-width='.7'%3E%3Crect x='18.5' y='18.5' width='19' height='19'/%3E%3Crect x='18.5' y='18.5' width='19' height='19' transform='rotate(45 28 28)'/%3E%3Cpath d='M28 14.6V0M28 41.4V56M14.6 28H0M41.4 28H56'/%3E%3C/g%3E%3C/svg%3E");
-  opacity: 0.07;
-  pointer-events: none;
-}
-.band--night a {
+.band a {
   color: var(--gold-light);
 }
+.paper-card a {
+  color: var(--gold-deep);
+}
+.arcade-line {
+  display: block;
+  width: min(520px, 84%);
+  height: auto;
+  margin: 0 auto 44px;
+  overflow: visible;
+}
 
-/* The arcade edge: a row of pointed arches cut into the top/bottom of a night band. */
-.arcade-edge {
+/* ---------------- Royal frame ---------------- */
+.royal-frame {
+  --rf-o: 10px;
+  --rf-i: 16px;
+  --rf-c: 92px;
+  --rf-fill: #fbf6ec;
+  --rf-crest-w: 150px;
   position: absolute;
-  left: 0;
-  width: 100%;
-  height: clamp(28px, 6vw, 60px);
-  fill: #f4ecdd;
-  top: -1px;
+  inset: 0;
   pointer-events: none;
 }
-.arcade-edge--flip {
-  top: auto;
-  bottom: -1px;
-  transform: scaleY(-1);
-  fill: #f6efe3;
+.rf-line {
+  position: absolute;
+  inset: var(--rf-o);
+  border: 1.4px solid #c9a35f;
 }
-.band--memory + .band--paper .arcade-edge,
-.band--closing .arcade-edge {
-  fill: #f1e7d4;
+.rf-line--inner {
+  inset: var(--rf-i);
+  border-width: 0.7px;
+  border-color: rgba(201, 163, 95, 0.6);
+}
+.rf-corner {
+  position: absolute;
+  width: var(--rf-c);
+  height: var(--rf-c);
+  overflow: visible;
+}
+.rf-corner--tl {
+  top: calc(var(--rf-o) - var(--rf-c) * 0.114);
+  left: calc(var(--rf-o) - var(--rf-c) * 0.114);
+}
+.rf-corner--tr {
+  top: calc(var(--rf-o) - var(--rf-c) * 0.114);
+  right: calc(var(--rf-o) - var(--rf-c) * 0.114);
+  transform: scaleX(-1);
+}
+.rf-corner--bl {
+  bottom: calc(var(--rf-o) - var(--rf-c) * 0.114);
+  left: calc(var(--rf-o) - var(--rf-c) * 0.114);
+  transform: scaleY(-1);
+}
+.rf-corner--br {
+  bottom: calc(var(--rf-o) - var(--rf-c) * 0.114);
+  right: calc(var(--rf-o) - var(--rf-c) * 0.114);
+  transform: scale(-1, -1);
+}
+.rf-fill {
+  fill: var(--rf-fill);
+}
+.rf-crest {
+  position: absolute;
+  left: 50%;
+  width: var(--rf-crest-w);
+  height: calc(var(--rf-crest-w) * 56 / 220);
+  top: calc(var(--rf-o) - var(--rf-crest-w) * 54 / 220);
+  margin-left: calc(var(--rf-crest-w) / -2);
+  overflow: visible;
+}
+.rf-crest--bottom {
+  top: auto;
+  bottom: calc(var(--rf-o) - var(--rf-crest-w) * 54 / 220);
+  transform: rotate(180deg);
+}
+.royal-frame--hero {
+  --rf-o: 7cqw;
+  --rf-i: 8.6cqw;
+  --rf-c: 24cqw;
+  --rf-fill: #0d1729;
+  --rf-crest-w: 27cqw;
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.55));
+}
+.royal-frame--hero .rf-line--outer {
+  border-width: 1.6px;
+  border-color: #d9bb78;
+}
+
+/* Reading progress and ambient gold dust */
+.scroll-progress {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 2px;
+  z-index: 30;
+  background: linear-gradient(90deg, #8c6b3a, #f6e4aa 50%, #c9a35f);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  box-shadow: 0 0 10px rgba(246, 228, 170, 0.7);
+  pointer-events: none;
+}
+.ambient-dust {
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 2s ease;
+  background-image:
+    radial-gradient(circle, rgba(246, 228, 170, 0.9) 0 1px, transparent 1.6px),
+    radial-gradient(circle, rgba(233, 208, 143, 0.7) 0 0.7px, transparent 1.3px),
+    radial-gradient(circle, rgba(255, 244, 214, 0.6) 0 1.2px, transparent 2px);
+  background-size:
+    190px 230px,
+    120px 160px,
+    310px 280px;
+  background-position:
+    0 0,
+    60px 90px,
+    140px 40px;
+  animation: dust 60s linear infinite;
+}
+body:has(.page.is-opened) .ambient-dust {
+  opacity: 0.45;
+}
+@keyframes dust {
+  to {
+    background-position:
+      40px -230px,
+      20px -70px,
+      160px -240px;
+  }
 }
 
 .eyebrow {
@@ -842,6 +947,10 @@ a {
   font-size: 11px;
   letter-spacing: 0.32em;
   text-transform: uppercase;
+  color: var(--gold-light);
+}
+.paper-card .eyebrow,
+.event .eyebrow {
   color: var(--gold-deep);
 }
 .eyebrow--light {
@@ -858,12 +967,21 @@ a {
 }
 .night-title {
   color: var(--night-ink);
+  text-shadow: 0 2px 18px rgba(233, 208, 143, 0.18);
+}
+.paper-card .night-title,
+.paper-card .section__title {
+  color: var(--ink);
+  text-shadow: none;
 }
 .lead {
   margin: 0 auto 8px;
   max-width: 30em;
   font-size: clamp(19px, 4.6vw, 22px);
   line-height: 1.55;
+  color: var(--night-soft);
+}
+.paper-card .lead {
   color: var(--ink-soft);
 }
 .lead--light {
@@ -874,6 +992,9 @@ a {
   font-family: var(--sans);
   font-size: 12px;
   letter-spacing: 0.14em;
+  color: rgba(246, 238, 221, 0.55);
+}
+.paper-card .fineprint {
   color: var(--ink-faint);
 }
 .fineprint--light {
@@ -896,8 +1017,10 @@ a {
   position: relative;
   max-width: 600px;
   margin: 0 22px;
-  padding: 64px 30px 54px;
-  background: linear-gradient(180deg, #fffdf8, #f8f1e4);
+  padding: 76px 36px 64px;
+  background:
+    var(--grain),
+    linear-gradient(180deg, #fffdf8, #f6eee0);
   box-shadow:
     0 1px 0 #fff inset,
     0 2px 6px rgba(61, 48, 36, 0.06),
@@ -906,15 +1029,15 @@ a {
 @media (min-width: 644px) {
   .paper-card {
     margin: 0 auto;
-    padding: 72px 56px 60px;
+    padding: 80px 64px 68px;
   }
 }
-.paper-card::before {
-  content: '';
-  position: absolute;
-  inset: 14px;
-  border: 1px solid rgba(176, 141, 87, 0.35);
-  pointer-events: none;
+.paper-card {
+  color: var(--ink);
+  box-shadow:
+    0 0 0 1px rgba(233, 208, 143, 0.35),
+    0 30px 70px -30px rgba(0, 0, 0, 0.8),
+    0 0 80px -20px rgba(233, 208, 143, 0.18);
 }
 .corner {
   position: absolute;
@@ -947,8 +1070,9 @@ a {
 }
 .person__name {
   margin: 0;
+  white-space: nowrap;
   font-family: var(--script);
-  font-size: clamp(42px, 11.5vw, 60px);
+  font-size: clamp(34px, 9.6vw, 58px);
   line-height: 1.25;
   padding: 0 0.1em;
 }
@@ -1167,13 +1291,12 @@ a {
 
 /* Remembrance */
 .band--memory {
-  padding: 90px 0 84px;
-  background: radial-gradient(70% 60% at 50% 30%, #fbf1dc 0%, #f3e8d4 55%, #efe4cf 100%);
+  padding: 40px 0 88px;
 }
 .lantern {
   display: block;
-  width: 64px;
-  height: 120px;
+  width: 76px;
+  height: 142px;
   margin: 0 auto 22px;
   overflow: visible;
 }
@@ -1209,13 +1332,13 @@ a {
   font-style: italic;
   font-size: clamp(20px, 4.8vw, 24px);
   line-height: 1.5;
-  color: var(--ink-soft);
+  color: var(--night-ink);
 }
 .memory__dua {
   max-width: 26em;
   margin: 0 auto;
   font-size: 19px;
-  color: var(--gold-deep);
+  color: var(--gold-light);
 }
 
 /* Gallery: three arch-framed photographs. */
@@ -1253,9 +1376,9 @@ a {
   overflow: hidden;
   box-shadow:
     0 0 0 1px rgba(176, 141, 87, 0.6),
-    0 0 0 6px #f6efe3,
-    0 0 0 7px rgba(176, 141, 87, 0.35),
-    0 24px 40px -24px rgba(61, 48, 36, 0.5);
+    0 0 0 6px #0d1729,
+    0 0 0 7px rgba(233, 208, 143, 0.45),
+    0 30px 50px -24px rgba(0, 0, 0, 0.7);
 }
 .gallery__frame img {
   width: 100%;
@@ -1271,8 +1394,8 @@ a {
 .gallery__caption {
   margin: 16px 0 0;
   font-style: italic;
-  font-size: 17px;
-  color: var(--ink-soft);
+  font-size: 18px;
+  color: var(--night-soft);
 }
 
 /* Buttons */
@@ -1577,6 +1700,7 @@ a {
   .bird svg,
   .motes,
   .cp-dupatta-tail,
+  .ambient-dust,
   .gold-foil,
   .lantern__glow,
   .lantern__flame {
