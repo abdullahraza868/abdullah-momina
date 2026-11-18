@@ -97,11 +97,12 @@ For WhatsApp, encode spaces: `?guest=Ahmed%20Khan` (most phones do this automati
 `public/audio/nasheed.mp3` is **"Bismillah Tere Naam Se Shuru"** (Kailash Kher, from the album *Azaan*), supplied by the family.
 - It's a 29-second excerpt, from 0:49 to 1:18 of the original track, and it loops.
 - The fades are built into the file: 3 seconds in and 4 seconds out.
-- The file itself is mastered quiet (about −35 dB average, roughly 21 dB below the original), because iPhones ignore volume set by a web page.
+- It's mixed to bring the vocals forward. The stereo spread is halved, the bass/drum range (below 180 Hz) is cut 8 dB, the highs are cut 5 dB, and the voice band (1.8–3.2 kHz) is gently lifted. With that, the music sits about 11–12 dB under the voice.
+- The file itself is mastered quiet (about −43 dB average) because iPhones ignore volume set by a web page.
 - Playback starts from the guest's opening tap, seal tap or tassel pull, never on page load.
 - The gold button in the bottom-right corner pauses and resumes it, and it pauses automatically while the page is in the background.
 - To regenerate it:
-  `ffmpeg -ss 49 -to 78 -i original.mp3 -af "loudnorm=I=-33:TP=-9:LRA=11,afade=t=in:st=0:d=3,afade=t=out:st=25:d=4" -b:a 96k public/audio/nasheed.mp3`
+  `ffmpeg -ss 49 -to 78 -i original.mp3 -af "extrastereo=m=0.5,bass=g=-8:f=180:w=0.7,treble=g=-5:f=7000,equalizer=f=1800:t=q:w=1.1:g=3.5,equalizer=f=3200:t=q:w=1.4:g=2,loudnorm=I=-39:TP=-9:LRA=11,afade=t=in:st=0:d=3,afade=t=out:st=25:d=4" -b:a 96k public/audio/nasheed.mp3`
 
 ## Countdown and dates
 
