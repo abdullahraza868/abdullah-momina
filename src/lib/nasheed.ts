@@ -16,8 +16,11 @@ let state: NasheedState = 'idle'
 let resumeOnVisible = false
 let fadeTimer = 0
 const listeners = new Set<() => void>()
-/** Kept low so it sits quietly in the background. */
-const TARGET_VOLUME = 0.28
+/**
+ * The file itself is mastered quiet (iOS ignores element volume), so play at full
+ * element volume; the fade-in here only smooths the start on other browsers.
+ */
+const TARGET_VOLUME = 1
 
 function set(next: NasheedState) {
   state = next

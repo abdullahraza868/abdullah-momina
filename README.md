@@ -95,12 +95,13 @@ For WhatsApp, encode spaces: `?guest=Ahmed%20Khan` (most phones do this automati
 ## Audio (background nasheed)
 
 `public/audio/nasheed.mp3` is **"Bismillah Tere Naam Se Shuru"** (Kailash Kher, from the album *Azaan*), supplied by the family.
-- It starts at 0:49 of the original track.
-- It was re-encoded at 96 kbps with a 2.5-second fade-in and 4-second fade-out, so the loop is seamless.
-- It was normalised to a quiet level (−24 LUFS), and the player then fades it in to only about 28% volume.
-- Playback starts from the guest's opening tap, seal tap or tassel pull, never on page load, and then loops.
+- It's a 29-second excerpt, from 0:49 to 1:18 of the original track, and it loops.
+- The fades are built into the file: 3 seconds in and 4 seconds out.
+- The file itself is mastered quiet (about −35 dB average, roughly 21 dB below the original), because iPhones ignore volume set by a web page.
+- Playback starts from the guest's opening tap, seal tap or tassel pull, never on page load.
 - The gold button in the bottom-right corner pauses and resumes it, and it pauses automatically while the page is in the background.
-- To change the track, replace the file and keep the same name. To change the loudness, edit `TARGET_VOLUME` in `src/lib/nasheed.ts`.
+- To regenerate it:
+  `ffmpeg -ss 49 -to 78 -i original.mp3 -af "loudnorm=I=-33:TP=-9:LRA=11,afade=t=in:st=0:d=3,afade=t=out:st=25:d=4" -b:a 96k public/audio/nasheed.mp3`
 
 ## Countdown and dates
 
