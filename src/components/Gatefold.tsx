@@ -5,7 +5,7 @@ import { wedding } from '../config/wedding'
 import { formatEventDate } from '../lib/dates'
 import { prefersReducedMotion } from '../lib/motion'
 import { Birds, Couple } from './art/Couple'
-import { RoyalFrame } from './Ornament'
+import { RoyalFrame, SkylineLine } from './Ornament'
 import { photos } from '../lib/photos'
 import { CardFace, CardInside } from './art/CardFace'
 import { Tassel } from './art/Tassel'
@@ -17,8 +17,18 @@ const PULL_MAX = 150
 const TAP_SLOP = 6
 
 interface Props {
-  greeting: string
+  /** Line above the card, e.g. "An invitation for Ahmed". */
+  invite: string
   onOpened: () => void
+}
+
+/** Size the opened card takes: full screen on phones, a tall card on larger screens. */
+function expandedSize() {
+  const w = window.innerWidth
+  const h = window.innerHeight
+  if (w < 640 || h < 560) return { width: w, height: h, radius: 0 }
+  const ch = Math.min(h * 0.9, 920)
+  return { width: ch / 2, height: ch, radius: 6 }
 }
 
 /**
@@ -26,8 +36,11 @@ interface Props {
  * tap it, or press Enter/Space/↓ on it, and the two panels swing open on
  * the arch scene. With prefers-reduced-motion the panels simply fade.
  */
-export function Gatefold({ greeting, onOpened }: Props) {
+export function Gatefold({ invite, onOpened }: Props) {
   const [phase, setPhase] = useState<Phase>('closed')
+  const [touched, setTouched] = useState(false)
+  const [expanded, setExpanded] = useState(false)
+  const cardRef = useRef<HTMLDivElement>(null)
   const rootRef = useRef<HTMLDivElement>(null)
   const pullRef = useRef<HTMLButtonElement>(null)
   const tasselRef = useRef<HTMLSpanElement>(null)
@@ -44,8 +57,22 @@ export function Gatefold({ greeting, onOpened }: Props) {
   const reception = formatEventDate(receptionEv.date)
 
   // One GSAP context for the component; reverted (all tweens killed) on unmount.
+  // It also plays the welcome entrance: skyline draws, the card rises, the seal drops in.
   useLayoutEffect(() => {
-    ctxRef.current = gsap.context(() => {}, rootRef)
+    ctxRef.current = gsap.context(() => {
+      if (prefersReducedMotion()) return
+      const q = gsap.utils.selector(rootRef)
+      gsap
+        .timeline({ defaults: { ease: 'power3.out' } })
+        .from(q('.gate-glow'), { autoAlpha: 0, scale: 0.6, duration: 2.2 }, 0)
+        .fromTo(q('.skyline-line path'), { drawSVG: '50% 50%' }, { drawSVG: '0% 100%', duration: 2.6, ease: 'power2.inOut' }, 0.1)
+        .from(q('.gate-eyebrow'), { autoAlpha: 0, letterSpacing: '0.9em', duration: 1.6 }, 0.3)
+        .from(cardRef.current, { autoAlpha: 0, y: 70, rotateX: 18, scale: 0.92, transformPerspective: 1400, transformOrigin: '50% 100%', duration: 1.6, ease: 'expo.out' }, 0.25)
+        .fromTo(q('.card-sheen'), { xPercent: -130 }, { xPercent: 130, duration: 1.8, ease: 'power2.inOut' }, 1.1)
+        .from(q('.pull-layer .cord'), { scaleX: 0, transformOrigin: '50% 50%', duration: 1.0, ease: 'power3.inOut' }, 1.0)
+        .from(q('.tassel'), { autoAlpha: 0, y: -60, scale: 1.5, duration: 1.0, ease: 'bounce.out' }, 1.3)
+        .from(q('.gate-cta > *'), { autoAlpha: 0, y: 24, duration: 1.0, stagger: 0.15 }, 1.6)
+    }, rootRef)
     return () => ctxRef.current?.revert()
   }, [])
 
@@ -100,10 +127,17 @@ export function Gatefold({ greeting, onOpened }: Props) {
     ctxRef.current.add(() => {
       const q = gsap.utils.selector(rootRef)
       const lines = q('.reveal-line')
+      const target = expandedSize()
+      const expand = () => {
+        cardRef.current?.classList.add('is-expanded')
+        setExpanded(true)
+      }
       if (reduced) {
+        expand()
         gsap
           .timeline({ onComplete: finish })
-          .to(q('.pull-layer, .gate-hint'), { autoAlpha: 0, duration: 0.25 })
+          .to(q('.gate-welcome, .gate-top, .gate-cta, .hand-hint'), { autoAlpha: 0, duration: 0.25 }, 0)
+          .to(q('.pull-layer'), { autoAlpha: 0, duration: 0.25 })
           .to(q('.door'), { autoAlpha: 0, duration: 0.45 }, 0.1)
           .fromTo(lines, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.5, stagger: 0.04 }, 0.3)
           .fromTo(q('.couple-layer, .scene-fx, .scene-card'), { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.5 }, 0.3)
@@ -111,9 +145,18 @@ export function Gatefold({ greeting, onOpened }: Props) {
       }
 
       // Hand control back (scroll, focus) as soon as the doors are gone; the text keeps animating in.
+      const master = gsap.timeline()
+      master
+        .to(q('.gate-top, .gate-cta, .hand-hint'), { autoAlpha: 0, y: 12, duration: 0.4, ease: 'power2.in' }, 0)
+        .to(q('.gate-welcome'), { autoAlpha: 0, duration: 1.2 }, 0.2)
+        .to(cardRef.current, { width: target.width, height: target.height, top: 0, bottom: 0, borderRadius: target.radius, duration: 0.85, ease: 'power3.inOut', onComplete: () => {
+          expand()
+          gsap.set(cardRef.current, { clearProps: 'width,height,top,bottom,borderRadius' })
+        } }, 0.1)
       const tl = gsap.timeline({ defaults: { ease: 'power2.out' } })
+      master.add(tl, 0.55)
       tl.to(tasselRef.current, { y: '+=40', duration: 0.28, ease: 'power2.in' })
-        .to(q('.pull-layer, .gate-hint'), { autoAlpha: 0, duration: 0.35 }, 0.12)
+        .to(q('.pull-layer'), { autoAlpha: 0, duration: 0.35 }, 0.12)
         .to([cordRef.current, cordHiRef.current], { attr: { d: 'M0 10 Q200 60 400 10' }, duration: 0.3 }, 0)
         .fromTo(q('.seam-light'), { scaleY: 0, autoAlpha: 0 }, { scaleY: 1, autoAlpha: 1, duration: 0.45, ease: 'power3.out' }, 0.2)
         .to(q('.door--left'), { rotationY: -104, duration: 1.45, ease: 'power3.inOut' }, 0.42)
@@ -146,6 +189,7 @@ export function Gatefold({ greeting, onOpened }: Props) {
   const onPointerDown = (e: React.PointerEvent<HTMLButtonElement>) => {
     if (phaseRef.current !== 'closed' || (e.pointerType === 'mouse' && e.button !== 0)) return
     swayRef.current?.pause()
+    setTouched(true)
     gsap.set(tasselRef.current, { rotation: 0 })
     drag.current = { active: true, startY: e.clientY, dy: 0, moved: false, pointerId: e.pointerId }
     e.currentTarget.setPointerCapture(e.pointerId)
@@ -193,7 +237,19 @@ export function Gatefold({ greeting, onOpened }: Props) {
   const isOpen = phase === 'open'
 
   return (
-    <div ref={rootRef} className={`gatefold is-${phase}`}>
+    <div ref={rootRef} className={`gate-stage is-${phase} ${touched ? 'is-touched' : ''}`}>
+      {/* Welcome backdrop: spotlight, gold dust, skyline line drawing. */}
+      <div className="gate-welcome" aria-hidden="true">
+        <div className="gate-glow" />
+        <div className="gate-dust" />
+        <SkylineLine />
+      </div>
+      <div className="gate-top">
+        <p className="gate-eyebrow">
+          <span aria-hidden="true">✦</span> {invite} <span aria-hidden="true">✦</span>
+        </p>
+      </div>
+    <div ref={cardRef} className={`gatefold is-${phase} ${expanded ? 'is-expanded' : ''}`}>
       {/* Revealed scene (always in the DOM; hidden from AT until open). */}
       <div className="scene" aria-hidden={!isOpen}>
         <div className="scene-art">
@@ -256,7 +312,7 @@ export function Gatefold({ greeting, onOpened }: Props) {
           <div className="seam-light" aria-hidden="true" />
           <div className="door door--left" aria-hidden="true">
             <div className="door__face">
-              <CardFace greeting={greeting} />
+              <CardFace />
             </div>
             <div className="door__back">
               <CardInside />
@@ -265,7 +321,7 @@ export function Gatefold({ greeting, onOpened }: Props) {
           </div>
           <div className="door door--right" aria-hidden="true">
             <div className="door__face">
-              <CardFace greeting={greeting} />
+              <CardFace />
             </div>
             <div className="door__back">
               <CardInside />
@@ -297,10 +353,28 @@ export function Gatefold({ greeting, onOpened }: Props) {
               </span>
             </button>
           </div>
-          <p id="gate-hint" className="gate-hint">
-            Pull the tassel to open
-          </p>
+          <div className="card-sheen" aria-hidden="true" />
+          <div className="hand-hint" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <circle className="hand-hint__ripple" cx="10.5" cy="4.5" r="3.5" />
+              <path d="M9 11V4.5a1.5 1.5 0 0 1 3 0V10h.5V8.5a1.5 1.5 0 0 1 3 0V10.5h.5V9.5a1.5 1.5 0 0 1 3 0V15c0 3.3-2.2 6-5.5 6h-1.6c-1.6 0-3-.7-4-1.9L4.6 15.3a1.4 1.4 0 0 1 2.1-1.9L9 15.5Z" />
+            </svg>
+          </div>
         </>
+      )}
+    </div>
+      {!isOpen && (
+        <div className="gate-cta">
+          <button type="button" className="open-cta" onClick={open} disabled={phase !== 'closed'}>
+            <span className="open-cta__label">Open Invitation</span>
+            <svg viewBox="0 0 16 16" aria-hidden="true">
+              <path d="M3 8H13M9 4L13 8L9 12" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
+          <p id="gate-hint" className="gate-hint">
+            Tap the seal, or pull the tassel
+          </p>
+        </div>
       )}
     </div>
   )

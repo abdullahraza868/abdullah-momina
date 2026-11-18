@@ -32,7 +32,7 @@ export default function App() {
       <div className="ambient-dust" aria-hidden="true" />
       <main ref={mainRef} className={`page ${opened ? 'is-opened' : ''}`}>
         <div className="stage" style={{ '--hero': `url(${photos.hero.src})` } as React.CSSProperties}>
-          <Gatefold greeting={greeting} onOpened={onOpened} />
+          <Gatefold invite={guest ? `An invitation for ${guest}` : 'You are cordially invited'} onOpened={onOpened} />
         </div>
         <div className="story" hidden={!opened}>
           <InvitationText greeting={greeting} />

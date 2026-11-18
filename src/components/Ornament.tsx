@@ -242,3 +242,75 @@ export function ArcadeLine() {
     </svg>
   )
 }
+
+/** Corner ornament as an SVG group (no ids), for embedding inside other artwork. Drawn in a 140 box, medallion at (16,16). */
+export function CornerArt({ transform, fill = '#FBF6EC' }: { transform?: string; fill?: string }) {
+  const arm = (
+    <>
+      <g fill="none" stroke={RF_GOLD} strokeLinecap="round">
+        <path d="M30 23C42 23 48 31 60 30C72 29 74 18 64 17C57 16.5 56 25 63 25.5" strokeWidth="1.3" />
+        <path d="M60 30C70 34 82 33 90 27C96 22.5 104 23 108 27" strokeWidth="1" />
+        <path d="M44 25.5C47 31 46 36 41 39C38 41 34 40 35 37" strokeWidth="0.9" />
+        <path d="M78 32.5C80 37 84 39 88 38" strokeWidth="0.8" />
+        <path d="M108 27C111 30 115 30 118 28" strokeWidth="0.8" />
+      </g>
+      <g fill={RF_GOLD}>
+        <ellipse cx="96" cy="21" rx="4.2" ry="1.7" transform="rotate(-22 96 21)" />
+        <ellipse cx="52" cy="34.5" rx="3.6" ry="1.5" transform="rotate(30 52 34.5)" />
+        <circle cx="122" cy="16" r="1.6" />
+        <circle cx="88" cy="38" r="1.2" />
+      </g>
+    </>
+  )
+  return (
+    <g transform={transform}>
+      {arm}
+      <g transform="matrix(0 1 1 0 0 0)">{arm}</g>
+      <path d="M27 27C34 30 38 34 41 41C34 38 30 34 27 27Z" fill={RF_GOLD} />
+      <circle cx="44" cy="44" r="1.8" fill={RF_GOLD} />
+      <g transform="translate(16 16)">
+        <circle r="13" fill={fill} stroke={RF_GOLD} strokeWidth="1.4" />
+        <circle r="9.5" fill="none" stroke={RF_GOLD} strokeWidth="0.6" />
+        <rect x="-6.5" y="-6.5" width="13" height="13" fill={RF_GOLD} />
+        <rect x="-6.5" y="-6.5" width="13" height="13" fill={RF_GOLD} transform="rotate(45)" />
+        <circle r="2.6" fill={fill} />
+      </g>
+    </g>
+  )
+}
+
+/** Gold line drawing of the Madinah skyline (minarets and domes), drawn in on the welcome screen. */
+export function SkylineLine() {
+  const minaret = (x: number, top: number) =>
+    `M${x - 5} 200V${top + 60}H${x - 4}V${top + 30}H${x - 6}V${top + 26}H${x + 6}V${top + 30}H${x + 4}V${top + 60}H${x + 5}V200M${x - 3} ${top + 26}V${top + 12}C${x - 3} ${top + 6} ${x} ${top + 3} ${x} ${top}C${x} ${top + 3} ${x + 3} ${top + 6} ${x + 3} ${top + 12}V${top + 26}`
+  const d = [
+    'M0 200H1000',
+    minaret(120, 40),
+    minaret(250, 70),
+    minaret(760, 70),
+    minaret(880, 40),
+    // arcade
+    'M300 200V160H700V200',
+    ...Array.from({ length: 9 }, (_, i) => {
+      const x = 318 + i * 44
+      return `M${x} 200V182C${x} 176 ${x + 6} 172 ${x + 9} 169C${x + 12} 172 ${x + 18} 176 ${x + 18} 182V200`
+    }),
+    // the green dome and a smaller dome
+    'M452 160V140H548V160M456 140C456 112 476 96 500 90C524 96 544 112 544 140M500 90V76M496 72A4 4 0 1 0 504 72A3 3 0 1 1 496 72',
+    'M372 160C372 144 382 134 396 131C410 134 420 144 420 160M396 131V124',
+  ].join('')
+  return (
+    <svg className="skyline-line" viewBox="0 0 1000 202" preserveAspectRatio="xMidYMax meet" aria-hidden="true" focusable="false">
+      <path d={d} fill="none" stroke="url(#rf-gold-sky)" strokeWidth="1.2" strokeLinejoin="round" />
+      <defs>
+        <linearGradient id="rf-gold-sky" x1="0" y1="0" x2="1000" y2="0" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stopColor="#C9A35F" stopOpacity="0" />
+          <stop offset="0.25" stopColor="#E9D08F" />
+          <stop offset="0.5" stopColor="#F6E4AA" />
+          <stop offset="0.75" stopColor="#E9D08F" />
+          <stop offset="1" stopColor="#C9A35F" stopOpacity="0" />
+        </linearGradient>
+      </defs>
+    </svg>
+  )
+}
