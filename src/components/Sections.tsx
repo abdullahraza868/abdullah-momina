@@ -191,6 +191,11 @@ export function Remembrance() {
     <section className="band band--memory" aria-label="In loving memory">
       <div className="wrap wrap--narrow">
         <Lantern />
+        <p className="eyebrow memory__eyebrow">In loving memory of</p>
+        <p className="memory__name gold-foil">{wedding.remembrance.name}</p>
+        <p className="memory__rahimahu" lang="ar" dir="rtl">
+          رَحِمَهُ ٱللَّٰهُ
+        </p>
         {wedding.remembrance.lines.map((line, i) => (
           <p key={i} className={i === 0 ? 'memory__line' : 'memory__dua'}>
             {withHonorifics(line)}

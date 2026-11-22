@@ -1685,6 +1685,26 @@ body:has(.page.is-opened) .ambient-dust {
     transform: scaleY(1.06);
   }
 }
+.memory__eyebrow {
+  margin: 0 0 6px;
+}
+.memory__name {
+  display: inline-block;
+  margin: 0;
+  padding: 0 0.1em;
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: clamp(32px, 8.6vw, 46px);
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+}
+.memory__rahimahu {
+  margin: 8px 0 22px;
+  font-family: var(--arabic);
+  font-size: 20px;
+  color: var(--gold-light);
+  opacity: 0.9;
+}
 .memory__line {
   max-width: 26em;
   margin: 0 auto 16px;

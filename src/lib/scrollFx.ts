@@ -45,7 +45,7 @@ export function setupScrollFx(root: HTMLElement): () => void {
     })
 
     // Script names are revealed left to right, like ink.
-    $('.person__name, .event__title, .monogram, .gallery__caption').forEach((el) => {
+    $('.person__name, .memory__name, .event__title, .monogram, .gallery__caption').forEach((el) => {
       gsap.fromTo(
         el,
         { clipPath: 'inset(-20% 100% -20% 0%)', filter: 'blur(4px)' },

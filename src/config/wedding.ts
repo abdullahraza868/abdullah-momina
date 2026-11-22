@@ -71,8 +71,10 @@ export const wedding = {
   },
 
   remembrance: {
+    /** Shown in the remembrance section under "In loving memory of". */
+    name: 'Muhammad Ashraf',
     lines: [
-      'In loving memory of a cherished father and uncle, whose love and presence remain forever in our hearts.',
+      'A cherished father and uncle, whose love and presence remain forever in our hearts.',
       'May Allah ﷻ shower him with His mercy and grant him the highest place in Jannatul Firdaus.',
     ],
   },
