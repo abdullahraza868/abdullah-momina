@@ -71,8 +71,11 @@ export function CardFace() {
       <text x="200" y="690" textAnchor="middle" className="cf-serif" fill="#8C6B3A">
         Madinah al-Munawwarah
       </text>
-      <path d="M150 710H190M210 710H250" stroke="#B08D57" strokeWidth="0.7" />
-      <Star8 cx={200} cy={710} r={3.2} />
+      <text x="200" y="712" textAnchor="middle" className="cf-caps" fill="#6B5B49">
+        Saudi Arabia
+      </text>
+      <path d="M150 732H190M210 732H250" stroke="#B08D57" strokeWidth="0.7" />
+      <Star8 cx={200} cy={732} r={3.2} />
     </svg>
   )
 }

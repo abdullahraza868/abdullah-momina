@@ -860,6 +860,9 @@ a {
   font-style: italic;
   color: rgba(248, 241, 226, 0.82);
 }
+.scene-event__region {
+  margin-top: 0.4cqw;
+}
 .scene-event__place {
   font-weight: 500;
   color: #f3e3b8;

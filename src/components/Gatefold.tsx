@@ -286,7 +286,7 @@ export function Gatefold({ invite, onOpened }: Props) {
             <span className="reveal-line scene-amp">&amp;</span>
             <span className="reveal-line gold-foil">{wedding.bride.shortName}</span>
           </h1>
-          <p className="reveal-line scene-invite">invite you to celebrate their union in Madinah</p>
+          <p className="reveal-line scene-invite">invite you to celebrate their union<br />in Madinah, Saudi Arabia</p>
         </div>
         <div className="scene-card">
           <span className="scene-card__star" aria-hidden="true" />
@@ -298,6 +298,7 @@ export function Gatefold({ invite, onOpened }: Props) {
             </p>
             <p className="scene-event__time">{nikkahEv.timeLabel}</p>
             <p className="scene-event__place">{nikkahEv.venue?.name ?? 'Venue to be announced'}</p>
+            <p className="scene-event__day scene-event__region">Madinah</p>
           </div>
           <span className="scene-card__rule" aria-hidden="true" />
           <div className="scene-event">
@@ -308,6 +309,7 @@ export function Gatefold({ invite, onOpened }: Props) {
             </p>
             <p className="scene-event__time">{receptionEv.timeLabel}</p>
             <p className="scene-event__place">{receptionEv.venue?.name ?? 'Madinah'}</p>
+            <p className="scene-event__day scene-event__region">{receptionEv.venue ? 'Madinah, Saudi Arabia' : 'Saudi Arabia'}</p>
           </div>
         </div>
         <a className="scroll-cue" href="#invitation" tabIndex={isOpen ? 0 : -1} onClick={onScrollCue}>
