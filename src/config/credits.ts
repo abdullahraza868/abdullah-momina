@@ -25,6 +25,6 @@ export const photoCredits: PhotoCredit[] = [
 export const audioCredit = {
   title: 'Bismillah Tere Naam Se Shuru',
   author: 'Kailash Kher (album: Azaan)',
-  license: 'Supplied by the family',
+  license: 'Supplied by the family (vocals only; instruments removed)',
   source: null,
 }
